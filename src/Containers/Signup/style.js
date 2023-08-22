@@ -9,6 +9,22 @@ export const getCustomStyles = () => `
   user-select: none;
 }
 
+.profile
+{
+  border-radius: 50%;
+  max-height:200px;
+  min-height:200px;
+  max-width:200px;
+  min-width:200px;
+}
+
+.center-horizontal
+{
+  margin-top: 5%;
+  margin-left: 25%;
+  margin-right: auto;
+}
+
 @media (min-width: 768px) {
   .bd-placeholder-img-lg {
     font-size: 3.5rem;
