@@ -4,6 +4,7 @@ import Signup from './Containers/Signup';
 import UploadDocumnets from './Containers/Driver/UploadDocuments';
 import Header from './Containers/Header';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Customer from './Containers/Admin/Customer';
 
 
 function App() {
@@ -11,7 +12,7 @@ function App() {
     <>
       <BrowserRouter>
       <Routes>
-        <Route path='/' Component={Login} />
+        <Route path='/' Component={Customer} />
         <Route path='/signup' Component={Signup} />
       </Routes>
       </BrowserRouter>
