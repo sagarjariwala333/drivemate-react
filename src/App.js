@@ -6,7 +6,6 @@ import Header from './Containers/Header';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Customer from './Containers/Admin/Customer';
 
-
 function App() {
   return (
     <>

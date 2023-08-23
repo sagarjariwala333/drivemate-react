@@ -1,15 +1,52 @@
 import React, { useState } from "react"
 import { getCustomStyles } from './style';
 import $ from 'jquery';
+import { test, signupRequest } from '../../redux/signup/actions';
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 
-function Signup() {
+function Signup() {    
+    
+    const [state,setState]=useState(
+        {
+            FirstName:"",
+            LastName:"",
+            Email:"",
+            PhoneNo:"",
+            Password:"",
+            Status:false,
+            Role:'C',
+            AadharNo:"123",
+            LicenceNo:"123",
+            IsEmailConfirmed:false,
+            IsPhoneConfirmed:false
+        }
+    );
+
+    const dispatch=useDispatch();
+
+    const handleSubmit=(e)=>
+    {
+        e.preventDefault();
+        console.log(state);
+        // dispatch(signupRequest({
+        //     hello:"hello"
+        // })); 
+    }
+
     const customStyles = getCustomStyles();
 
-    const [state, setState] = useState({ img: "" });
 
     const handleChangeImage = (e) => {
         setState({ [e.target.name]: URL.createObjectURL(e.target.files[0]) })
+    }
+
+    const handleChange=(e)=>{
+        setState({
+            ...state,
+            [e.target.name]:e.target.value
+        })
     }
 
 
@@ -25,7 +62,7 @@ function Signup() {
                 <div className="container">
 
                     <main className="form-signin w-100">
-                        <form>
+                        <form onSubmit={handleSubmit}>
 
                             <h1 className="h3 mb-3 fw-normal">Please sign up</h1>
 
@@ -37,20 +74,20 @@ function Signup() {
                                     <div>
                                         
                                         <img src={state.img} alt="img" className="profile h-25 w-25" />
-                                        <input type="file" id="img" name="img" accept="image/*" className="w-100" onChange={handleChangeImage} />
+                                        <input type="file" id="img" name="profilepic" accept="image/*" className="w-100" onChange={handleChangeImage} />
 
                                     </div>
 
                                     <div className="col">
                                         <div className="form-floating m-2">
-                                            <input type="text" className="form-control" id="floatingInput" placeholder="name@example.com" />
+                                            <input type="text" name="FirstName" onChange={handleChange} className="form-control" id="floatingInput" placeholder="name@example.com" />
                                             <label htmlFor="floatingInput">First Name</label>
                                         </div>
                                     </div>
 
                                     <div className="col">
                                         <div className="form-floating m-2">
-                                            <input type="text" className="form-control" id="floatingPassword" placeholder="Password" />
+                                            <input type="text" name="LastName" onChange={handleChange} className="form-control" id="floatingPassword" placeholder="Password" />
                                             <label htmlFor="floatingPassword">Last Name</label>
                                         </div>
                                     </div>
@@ -61,14 +98,14 @@ function Signup() {
 
                                     <div className="col">
                                         <div className="form-floating m-2">
-                                            <input type="text" size="10" className="form-control" id="floatingPassword" placeholder="Password" />
+                                            <input type="text" name="PhoneNo" onChange={handleChange} size="10" className="form-control" id="floatingPassword" placeholder="Password" />
                                             <label htmlFor="floatingPassword">Mobile Number</label>
                                         </div>
                                     </div>
 
                                     <div className="col">
                                         <div className="form-floating m-2">
-                                            <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" />
+                                            <input type="email" name="Email" onChange={handleChange} className="form-control" id="floatingInput" placeholder="name@example.com" />
                                             <label htmlFor="floatingInput">Email address</label>
                                         </div>
                                     </div>
@@ -78,7 +115,7 @@ function Signup() {
 
                                     <div className="col">
                                         <div className="form-floating m-2">
-                                            <input type="password" className="form-control" id="floatingPassword" placeholder="Password" />
+                                            <input type="password" name="Password" onChange={handleChange} className="form-control" id="floatingPassword" placeholder="Password" />
                                             <label htmlFor="floatingPassword">Password</label>
                                         </div>
                                     </div>
@@ -109,7 +146,7 @@ function Signup() {
 
                                     <div className="col">
                                         <div className="form-floating m-2">
-                                            <input type="text" className="form-control" id="adhar" placeholder="Aadhar Number" />
+                                            <input type="text" name="AadharNo" onChange={handleChange} className="form-control" id="adhar" placeholder="Aadhar Number" />
                                             <label htmlFor="aadhar">Aadhar Number</label>
                                             <input type="file" />
                                         </div>
@@ -118,7 +155,7 @@ function Signup() {
 
                                     <div className="col">
                                         <div className="form-floating m-2">
-                                            <input type="text" className="form-control" id="licenese" placeholder="License Number" />
+                                            <input type="text" name="LicenceNo" onChange={handleChange} className="form-control" id="licenese" placeholder="License Number" />
                                             <label htmlFor="licenese">Licenese Number</label>
                                             <input type="file" />
                                         </div>
