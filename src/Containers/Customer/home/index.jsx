@@ -1,32 +1,79 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { getCustomStyles } from './style';
 import $ from 'jquery';
-import { test, signupRequest } from '../../Customer/home';
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
+import { reversegeoCodeRequest } from "../../../redux/reversegeolocation/actions";
+import { Link } from "react-router-dom";
+
 
 
 function CustomerHome() {
 
+
+    const dispatch = useDispatch();
+
     const [location, setLocation] = useState(null);
 
-    const getLocation = () => {
-        console.log(location);
+    const [address, setAddress] = useState({
+        source: "",
+        destination: ""
+
+    })
+
+    let latitude, longitude;
+
+    useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-                    setLocation({ latitude, longitude });
+                    latitude = position.coords.latitude;
+                    longitude = position.coords.longitude;
+                    setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+                    console.log(latitude + " " + longitude);
+                    console.log("Exact Latitude:", latitude);
+                    console.log("Exact Longitude:", longitude);
                 },
                 (error) => {
                     console.error("Error getting location:", error.message);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0,
                 }
             );
         } else {
             console.error("Geolocation is not supported by this browser.");
         }
+    }, []);
+
+
+    let sourceAddress = "";
+
+    const getLocation = (e) => {
+
+        e.preventDefault();
+        console.log("Get location called", location);
+        var obj = {
+            lattitude: location.latitude,
+            longitude: location.longitude
+        }
+        console.log("Get location", obj);
+
+        dispatch(reversegeoCodeRequest(obj));
+
+        setTimeout(() => {
+            // Perform any cleanup or unmount logic here
+            console.log("result", res.data.result[0].formatted_address);
+            setAddress({
+                ...address,
+                source: res.data.result[0].formatted_address
+            });
+        }, 3000);
+
+
     };
+
 
     const [state, setState] = useState(
         {
@@ -44,11 +91,15 @@ function CustomerHome() {
         }
     );
 
-    const dispatch = useDispatch();
+    const res = useSelector(state => state.ReverseGeoLocation);
 
     const handleSubmit = (e) => {
+        console.log("Handle submit");
         e.preventDefault();
+
     }
+
+    console.log(res);
 
     const customStyles = getCustomStyles();
 
@@ -95,30 +146,36 @@ function CustomerHome() {
 
                                     <div className="col-3">
                                         <div className="form-floating m-2">
-                                            <button className="btn btn-primary" onClick={getLocation}>Get Location</button>
+                                            <Link onClick={getLocation}>Get Location</Link>
                                         </div>
                                     </div>
 
+                                </div>
 
-                                    <div className="col-2">
+                                <div className="row" style={{ width: "700px" }}>
+
+                                    <div className="col-4">
                                         <div className="form-floating m-2">
-                                            <input type="text" value={location?.latitude} name="FirstName" onChange={handleChange} className="form-control" id="floatingInput" placeholder="name@example.com" />
-                                            <label htmlFor="floatingInput">Latitude</label>
+                                            <input disabled="true" type="text" name="FirstName" onChange={handleChange} className="form-control transparent-input" id="floatingInput" placeholder="name@example.com" />
+                                            <label htmlFor="floatingInput">Source Address</label>
                                         </div>
                                     </div>
 
-                                    <div className="col-2">
+
+                                    <div className="col">
                                         <div className="form-floating m-2">
-                                            <input type="text" value={location?.longitude} name="LastName" onChange={handleChange} className="form-control" id="floatingPassword" placeholder="Password" />
-                                            <label htmlFor="floatingPassword">Longitude</label>
+                                            <input disabled="true" type="text" name="FirstName" value={address.source} onChange={handleChange} className="form-control" id="floatingInput" placeholder="name@example.com" />
+                                            <label htmlFor="floatingInput">Source Address</label>
                                         </div>
                                     </div>
+
+
                                 </div>
 
 
                                 <div className="row" style={{ width: "700px" }}>
 
-                                    <div className="col">
+                                    <div className="col-4">
                                         <div className="form-floating m-2">
                                             <input disabled="true" type="text" name="FirstName" onChange={handleChange} className="form-control transparent-input" id="floatingInput" placeholder="name@example.com" />
                                             <label htmlFor="floatingInput">Destination</label>
@@ -126,20 +183,15 @@ function CustomerHome() {
                                     </div>
 
 
-                                    <div className="col">
+                                    <div className="col-8">
                                         <div className="form-floating m-2">
                                             <input type="text" name="FirstName" onChange={handleChange} className="form-control" id="floatingInput" placeholder="name@example.com" />
-                                            <label htmlFor="floatingInput">Latitude</label>
+                                            <label htmlFor="floatingInput">Address</label>
                                         </div>
                                     </div>
 
-                                    <div className="col">
-                                        <div className="form-floating m-2">
-                                            <input type="text" name="LastName" onChange={handleChange} className="form-control" id="floatingPassword" placeholder="Password" />
-                                            <label htmlFor="floatingPassword">Longitude</label>
-                                        </div>
-                                    </div>
                                 </div>
+
 
                                 <div className="row" style={{ width: "700px" }}>
 
