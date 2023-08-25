@@ -9,6 +9,22 @@ export const getCustomStyles = () => `
   user-select: none;
 }
 
+.profile
+{
+  border-radius: 50%;
+  max-height:150px;
+  min-height:150px;
+  max-width:150px;
+  min-width:150px;
+}
+
+.center-horizontal
+{
+  margin-top: 5%;
+  margin-left: 25%;
+  margin-right: auto;
+}
+
 @media (min-width: 768px) {
   .bd-placeholder-img-lg {
     font-size: 3.5rem;
@@ -91,6 +107,12 @@ body {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+.transparent-input {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 

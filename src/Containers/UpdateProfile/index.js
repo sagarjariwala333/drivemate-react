@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import img from "../../assets/british_pm.jpg";
 
 
-function Signup() {    
+function UpdateProfile() {    
     
     const [state,setState]=useState(
         {
@@ -61,7 +61,7 @@ function Signup() {
                     <main className="form-signin w-100">
                         <form onSubmit={handleSubmit}>
 
-                            <h1 className="h3 mb-3 fw-normal">Please sign up</h1>
+                            <h1 className="h3 mb-3 fw-normal">Please Update</h1>
 
                             <div className="container">
 
@@ -108,36 +108,7 @@ function Signup() {
                                     </div>
                                 </div>
 
-                                <div className="row" style={{ width: "700px" }}>
 
-                                    <div className="col">
-                                        <div className="form-floating m-2">
-                                            <input type="password" name="Password" onChange={handleChange} className="form-control" id="floatingPassword" placeholder="Password" />
-                                            <label htmlFor="floatingPassword">Password</label>
-                                        </div>
-                                    </div>
-
-                                    <div className="col">
-                                        <div className="form-floating m-2">
-                                            <input type="password" className="form-control" id="floatingRePassword" placeholder="Retype Password" />
-                                            <label htmlFor="floatingRePassword">Retype Password</label>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div className="row" style={{ width: "700px" }}>
-                                    <div className="col">
-                                        <div className="form-floating m-2">
-                                            <select id="role" name="role" className="form-control" placeholder="Role">
-                                                <option value="none">--Select Role--</option>
-                                                <option value="volvo">Driver</option>
-                                                <option value="saab">Customer</option>
-                                            </select>
-                                            <label htmlFor="role">Role</label>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div className="row" style={{ width: "700px" }}>
 
@@ -161,7 +132,7 @@ function Signup() {
 
                             </div>
 
-                            <button className="btn btn-primary w-100 py-2" type="submit">Sign up</button>
+                            <button className="btn btn-primary w-100 py-2" type="submit">Update</button>
                             <p className="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
 
 
@@ -173,4 +144,4 @@ function Signup() {
     )
 }
 
-export default Signup;
+export default UpdateProfile;

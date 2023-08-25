@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import img from "../../assets/british_pm.jpg";
 
 
-function Signup() {    
+function ViewTrip() {    
     
     const [state,setState]=useState(
         {
@@ -61,31 +61,25 @@ function Signup() {
                     <main className="form-signin w-100">
                         <form onSubmit={handleSubmit}>
 
-                            <h1 className="h3 mb-3 fw-normal">Please sign up</h1>
+                            <h1 className="h3 mb-3 fw-normal">View Trip</h1>
 
                             <div className="container">
 
 
                                 <div className="row" style={{ width: "700px" }}>
 
-                                    <div>
-                                        
-                                        <img src={img} alt="img" className="profile" />
-                                        <input type="file" id="img" name="profilepic" accept="image/*" className="w-100" onChange={handleChangeImage} />
-
-                                    </div>
 
                                     <div className="col">
                                         <div className="form-floating m-2">
                                             <input type="text" name="FirstName" onChange={handleChange} className="form-control" id="floatingInput" placeholder="name@example.com" />
-                                            <label htmlFor="floatingInput">First Name</label>
+                                            <label htmlFor="floatingInput">Source</label>
                                         </div>
                                     </div>
 
                                     <div className="col">
                                         <div className="form-floating m-2">
                                             <input type="text" name="LastName" onChange={handleChange} className="form-control" id="floatingPassword" placeholder="Password" />
-                                            <label htmlFor="floatingPassword">Last Name</label>
+                                            <label htmlFor="floatingPassword">Destination</label>
                                         </div>
                                     </div>
                                 </div>
@@ -96,14 +90,14 @@ function Signup() {
                                     <div className="col">
                                         <div className="form-floating m-2">
                                             <input type="text" name="PhoneNo" onChange={handleChange} size="10" className="form-control" id="floatingPassword" placeholder="Password" />
-                                            <label htmlFor="floatingPassword">Mobile Number</label>
+                                            <label htmlFor="floatingPassword">Driver</label>
                                         </div>
                                     </div>
 
                                     <div className="col">
                                         <div className="form-floating m-2">
                                             <input type="email" name="Email" onChange={handleChange} className="form-control" id="floatingInput" placeholder="name@example.com" />
-                                            <label htmlFor="floatingInput">Email address</label>
+                                            <label htmlFor="floatingInput">Customer</label>
                                         </div>
                                     </div>
                                 </div>
@@ -113,56 +107,41 @@ function Signup() {
                                     <div className="col">
                                         <div className="form-floating m-2">
                                             <input type="password" name="Password" onChange={handleChange} className="form-control" id="floatingPassword" placeholder="Password" />
-                                            <label htmlFor="floatingPassword">Password</label>
+                                            <label htmlFor="floatingPassword">Amount</label>
                                         </div>
                                     </div>
 
                                     <div className="col">
                                         <div className="form-floating m-2">
                                             <input type="password" className="form-control" id="floatingRePassword" placeholder="Retype Password" />
-                                            <label htmlFor="floatingRePassword">Retype Password</label>
+                                            <label htmlFor="floatingRePassword">Distance</label>
                                         </div>
                                     </div>
 
                                 </div>
 
                                 <div className="row" style={{ width: "700px" }}>
+
                                     <div className="col">
                                         <div className="form-floating m-2">
-                                            <select id="role" name="role" className="form-control" placeholder="Role">
-                                                <option value="none">--Select Role--</option>
-                                                <option value="volvo">Driver</option>
-                                                <option value="saab">Customer</option>
-                                            </select>
-                                            <label htmlFor="role">Role</label>
+                                            <input type="password" name="Password" onChange={handleChange} className="form-control" id="floatingPassword" placeholder="Password" />
+                                            <label htmlFor="floatingPassword">Transaction Type</label>
                                         </div>
                                     </div>
+
+                                    <div className="col">
+                                        <div className="form-floating m-2">
+                                            <input type="password" className="form-control" id="floatingRePassword" placeholder="Retype Password" />
+                                            <label htmlFor="floatingRePassword">Transaction Type</label>
+                                        </div>
+                                    </div>
+
                                 </div>
 
-                                <div className="row" style={{ width: "700px" }}>
 
-                                    <div className="col">
-                                        <div className="form-floating m-2">
-                                            <input type="text" name="AadharNo" onChange={handleChange} className="form-control" id="adhar" placeholder="Aadhar Number" />
-                                            <label htmlFor="aadhar">Aadhar Number</label>
-                                            <input type="file" />
-                                        </div>
-
-                                    </div>
-
-                                    <div className="col">
-                                        <div className="form-floating m-2">
-                                            <input type="text" name="LicenceNo" onChange={handleChange} className="form-control" id="licenese" placeholder="License Number" />
-                                            <label htmlFor="licenese">Licenese Number</label>
-                                            <input type="file" />
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
 
-                            <button className="btn btn-primary w-100 py-2" type="submit">Sign up</button>
-                            <p className="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
 
 
                         </form>
@@ -173,4 +152,4 @@ function Signup() {
     )
 }
 
-export default Signup;
+export default ViewTrip;

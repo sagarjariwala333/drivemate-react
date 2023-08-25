@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import Header from "../../Header";
 import './style.css';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCustomerRequest } from '../../../redux/viewcustomer/actions';
+import { fetchTripsRequest } from '../../../redux/viewtrips/actions';
 import { Link } from "react-router-dom";
 
-function Customer() {
+function Trips() {
 
   const dispatch = useDispatch();
 
-  const res = useSelector(state => state.ViewCustomer);
+  const res = useSelector(state => state.ViewTrip);
 
   useEffect(() => {
-    dispatch(fetchCustomerRequest());
+    dispatch(fetchTripsRequest());
     //setState(res);
   }, [dispatch])
 
@@ -25,20 +25,19 @@ function Customer() {
       <table id="Admin" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
         <thead>
           <tr>
-            <th className="th-sm">Name
+            <th className="th-sm">Driver
 
             </th>
-            <th className="th-sm">Email
+            <th className="th-sm">Customer
 
             </th>
-            <th className="th-sm">Mobile_No
+            <th className="th-sm">Date
 
             </th>
-            <th className="th-sm">Status
+            <th className="th-sm">Amount
             </th>
 
             <th className="th-sm"> Action
-
             </th>
 
           </tr>
@@ -46,14 +45,14 @@ function Customer() {
         <tbody>
 
           {
-            res.data.map(x => (
+            res.data?.map(x => (
               <tr>
-                <td>{x.Name}</td>
-                <td>{x.Email}</td>
-                <td>{x.Mobile_No}</td>
-                <td>{x.Status}</td>
+                <td>{x.Driver}</td>
+                <td>{x.Customer}</td>
+                <td>{x.Date}</td>
+                <td>{x.Amount}</td>
                 <td>
-                  <Link className="btn btn-primary" to="/admin/customer/profile"> View </Link>
+                  <Link to="/admin/trips/trip" className="btn btn-primary"> View </Link>
                 </td>
               </tr>
             ))
@@ -68,4 +67,4 @@ function Customer() {
 
 }
 
-export default Customer;
+export default Trips;
