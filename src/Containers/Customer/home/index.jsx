@@ -8,6 +8,26 @@ import { useDispatch } from "react-redux";
 
 function CustomerHome() {
 
+    const [location, setLocation] = useState(null);
+
+    const getLocation = () => {
+        console.log(location);
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    setLocation({ latitude, longitude });
+                },
+                (error) => {
+                    console.error("Error getting location:", error.message);
+                }
+            );
+        } else {
+            console.error("Geolocation is not supported by this browser.");
+        }
+    };
+
     const [state, setState] = useState(
         {
             FirstName: "",
@@ -66,24 +86,30 @@ function CustomerHome() {
 
                                 <div className="row" style={{ width: "700px" }}>
 
-                                    <div className="col">
+                                    <div className="col-4">
                                         <div className="form-floating m-2">
                                             <input disabled="true" type="text" name="FirstName" onChange={handleChange} className="form-control transparent-input" id="floatingInput" placeholder="name@example.com" />
                                             <label htmlFor="floatingInput">Source</label>
                                         </div>
                                     </div>
 
-
-                                    <div className="col">
+                                    <div className="col-3">
                                         <div className="form-floating m-2">
-                                            <input type="text" name="FirstName" onChange={handleChange} className="form-control" id="floatingInput" placeholder="name@example.com" />
+                                            <button className="btn btn-primary" onClick={getLocation}>Get Location</button>
+                                        </div>
+                                    </div>
+
+
+                                    <div className="col-2">
+                                        <div className="form-floating m-2">
+                                            <input type="text" value={location?.latitude} name="FirstName" onChange={handleChange} className="form-control" id="floatingInput" placeholder="name@example.com" />
                                             <label htmlFor="floatingInput">Latitude</label>
                                         </div>
                                     </div>
 
-                                    <div className="col">
+                                    <div className="col-2">
                                         <div className="form-floating m-2">
-                                            <input type="text" name="LastName" onChange={handleChange} className="form-control" id="floatingPassword" placeholder="Password" />
+                                            <input type="text" value={location?.longitude} name="LastName" onChange={handleChange} className="form-control" id="floatingPassword" placeholder="Password" />
                                             <label htmlFor="floatingPassword">Longitude</label>
                                         </div>
                                     </div>
