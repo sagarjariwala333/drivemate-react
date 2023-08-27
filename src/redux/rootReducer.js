@@ -5,6 +5,8 @@ import viewDriverReducer from "./viewdriver/reducer";
 import viewTripsReducer from "./viewtrips/reducer";
 import geoLocationReducer from "./geolocation/reducer";
 import reversegeoLocationReducer from "./reversegeolocation/reducer";
+import currentLocationReducer from "./currentposition/reducer";
+import distanceReducer from "./distance/reducer";
 
 
 const rootReducer = combineReducers({
@@ -13,7 +15,9 @@ const rootReducer = combineReducers({
     ViewDriver: viewDriverReducer,
     ViewTrip: viewTripsReducer,
     Geolocation: geoLocationReducer,
-    ReverseGeoLocation: reversegeoLocationReducer
+    ReverseGeoLocation: reversegeoLocationReducer,
+    CurrentLocation: currentLocationReducer,
+    Distance: distanceReducer
 });
 
 export default rootReducer;

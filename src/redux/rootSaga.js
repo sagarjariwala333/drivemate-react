@@ -5,6 +5,8 @@ import viewDriversSaga from './viewdriver/saga';
 import viewTripsSaga from './viewtrips/saga';
 import geoLocationSaga from './geolocation/saga';
 import reversegeoLocationSaga from './reversegeolocation/saga';
+import currentLocationSaga from './currentposition/saga';
+import distanceSaga from './distance/saga';
 // Import other sagas here
 
 function* rootSaga() {
@@ -14,7 +16,9 @@ function* rootSaga() {
     fork(viewDriversSaga),
     fork(viewTripsSaga),
     fork(geoLocationSaga),
-    fork(reversegeoLocationSaga)
+    fork(reversegeoLocationSaga),
+    fork(currentLocationSaga),
+    fork(distanceSaga)
     // Add other forked sagas here
   ]);
 }

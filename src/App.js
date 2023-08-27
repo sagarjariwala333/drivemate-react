@@ -15,13 +15,14 @@ import DriverHeader from "./Containers/Header/driver";
 import CustomerHeader from "./Containers/Header/customer";
 import AdminHeader from "./Containers/Header/admin";
 import LocationButton from "./Containers/Temp";
+import LoadingPage from "./Containers/Loading";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" Component={Login} />
+          <Route path="/" Component={LoadingPage} />
           <Route path="/signup" Component={Signup} />
           
           <Route
