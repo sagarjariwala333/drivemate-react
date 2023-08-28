@@ -7,29 +7,33 @@ import { useDispatch } from "react-redux";
 import img from "../../assets/british_pm.jpg";
 
 
-function Signup() {    
-    
-    const [state,setState]=useState(
+function Signup() {
+
+    const [state, setState] = useState(
         {
-            FirstName:"",
-            LastName:"",
-            Email:"",
-            PhoneNo:"",
-            Password:"",
-            Status:false,
-            Role:'C',
-            AadharNo:"123",
-            LicenceNo:"123",
-            IsEmailConfirmed:false,
-            IsPhoneConfirmed:false
+            FirstName: "",
+            LastName: "",
+            Email: "",
+            PhoneNo: "",
+            Password: "",
+            Status: true,
+            Role: "",
+            AadharNo: "123",
+            LicenceNo: "123",
+            IsEmailConfirmed: false,
+            IsPhoneConfirmed: false,
+            aadhar: null,
+            licence: null,
+            profilepic: null
         }
     );
 
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
 
-    const handleSubmit=(e)=>
-    {
+    const handleSubmit = (e) => {
+        console.log("Form submitted", state);
         e.preventDefault();
+        dispatch(signupRequest(state));
     }
 
     const customStyles = getCustomStyles();
@@ -39,10 +43,27 @@ function Signup() {
         setState({ [e.target.name]: URL.createObjectURL(e.target.files[0]) })
     }
 
-    const handleChange=(e)=>{
+    const handleChange = (e) => {
+        e.preventDefault();
         setState({
             ...state,
-            [e.target.name]:e.target.value
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleRoleChange = (e) => {
+        setState({
+            ...state,
+            Role: e.target.value
+        })
+    }
+
+    const handleBinaryChange = (e) => {
+        e.preventDefault();
+
+        setState({
+            ...state,
+            [e.target.name]: URL.createObjectURL(e.target.files[0])
         })
     }
 
@@ -69,9 +90,9 @@ function Signup() {
                                 <div className="row" style={{ width: "700px" }}>
 
                                     <div>
-                                        
-                                        <img src={img} alt="img" className="profile" />
-                                        <input type="file" id="img" name="profilepic" accept="image/*" className="w-100" onChange={handleChangeImage} />
+
+                                        <img src={state.profilepic} alt="img" className="profile" />
+                                        <input type="file" id="img" onChange={handleBinaryChange} name="profilepic" accept="image/*" className="w-100" />
 
                                     </div>
 
@@ -129,41 +150,44 @@ function Signup() {
                                 <div className="row" style={{ width: "700px" }}>
                                     <div className="col">
                                         <div className="form-floating m-2">
-                                            <select id="role" name="role" className="form-control" placeholder="Role">
-                                                <option value="none">--Select Role--</option>
-                                                <option value="volvo">Driver</option>
-                                                <option value="saab">Customer</option>
+                                            <select id="role" name="role" value={state.Role} onChange={handleRoleChange} className="form-control" placeholder="Role">
+                                                <option value="">--Select Role--</option>
+                                                <option value="customer">Customer</option>
+                                                <option value="driver">Driver</option>
                                             </select>
                                             <label htmlFor="role">Role</label>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="row" style={{ width: "700px" }}>
+                                {
+                                    (state.Role === "driver") &&
+                                    <>
+                                        <div className="row" style={{ width: "700px" }}>
 
-                                    <div className="col">
-                                        <div className="form-floating m-2">
-                                            <input type="text" name="AadharNo" onChange={handleChange} className="form-control" id="adhar" placeholder="Aadhar Number" />
-                                            <label htmlFor="aadhar">Aadhar Number</label>
-                                            <input type="file" />
+                                            <div className="col">
+                                                <div className="form-floating m-2">
+                                                    <input type="text" name="AadharNo" onChange={handleChange} className="form-control" id="adhar" placeholder="Aadhar Number" />
+                                                    <label htmlFor="aadhar">Aadhar Number</label>
+                                                    <input type="file" name="aadhar" onChange={handleBinaryChange} />
+                                                </div>
+
+                                            </div>
+
+                                            <div className="col">
+                                                <div className="form-floating m-2">
+                                                    <input type="text" name="LicenceNo" onChange={handleChange} className="form-control" id="licenese" placeholder="License Number" />
+                                                    <label htmlFor="licenese">Licenese Number</label>
+                                                    <input type="file" name="licence" onChange={handleBinaryChange} />
+                                                </div>
+                                            </div>
                                         </div>
-
-                                    </div>
-
-                                    <div className="col">
-                                        <div className="form-floating m-2">
-                                            <input type="text" name="LicenceNo" onChange={handleChange} className="form-control" id="licenese" placeholder="License Number" />
-                                            <label htmlFor="licenese">Licenese Number</label>
-                                            <input type="file" />
-                                        </div>
-                                    </div>
-                                </div>
+                                    </>
+                                }
 
                             </div>
 
                             <button className="btn btn-primary w-100 py-2" type="submit">Sign up</button>
-                            <p className="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
-
 
                         </form>
                     </main>
