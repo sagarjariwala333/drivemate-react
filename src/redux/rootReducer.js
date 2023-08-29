@@ -8,6 +8,8 @@ import reversegeoLocationReducer from "./reversegeolocation/reducer";
 import currentLocationReducer from "./currentposition/reducer";
 import distanceReducer from "./distance/reducer";
 import loginReducer from "./login/reducer";
+import insertTripRequestReducer from "./inserttrip/reducer";
+import viewRemainTripReducer from "./viewremaintrip/reducer";
 
 
 const rootReducer = combineReducers({
@@ -20,6 +22,8 @@ const rootReducer = combineReducers({
     CurrentLocation: currentLocationReducer,
     Distance: distanceReducer,
     Login: loginReducer,
+    InsertTrip: insertTripRequestReducer,
+    ViewRemainTrip:viewRemainTripReducer 
 });
 
 export default rootReducer;

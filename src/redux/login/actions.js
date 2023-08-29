@@ -1,9 +1,10 @@
 import { LOGIN_REQUEST,LOGIN_SUCCESS, LOGIN_FAILURE } from './types'
 
-export const loginRequest=(data)=>{
+export const loginRequest=(data,navigate)=>{
     return {
         type: LOGIN_REQUEST,
-        data
+        data,
+        navigate
     }
 }
 

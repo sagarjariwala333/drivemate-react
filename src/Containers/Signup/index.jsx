@@ -1,13 +1,21 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { getCustomStyles } from './style';
 import $ from 'jquery';
 import { test, signupRequest } from '../../redux/signup/actions';
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import img from "../../assets/british_pm.jpg";
+import LoadingPage from "../Loading";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router";
+import { takeEvery,put, call } from "redux-saga/effects";
+
 
 
 function Signup() {
+
+    const navigate = useNavigate();
 
     const [state, setState] = useState(
         {
@@ -17,7 +25,7 @@ function Signup() {
             PhoneNo: "",
             Password: "",
             Status: true,
-            Role: "",
+            Role: '',
             AadharNo: "123",
             LicenceNo: "123",
             IsEmailConfirmed: false,
@@ -30,10 +38,32 @@ function Signup() {
 
     const dispatch = useDispatch();
 
-    const handleSubmit = (e) => {
-        console.log("Form submitted", state);
-        e.preventDefault();
-        dispatch(signupRequest(state));
+    const result = useSelector(state => state.Signup)
+
+    // useEffect(()=>{
+    //     if(result.data?.data?.success)
+    //     {
+    //         toast.success("Thank you to sign up");
+    //         navigate("/");
+    //     }
+    //     else
+    //     {
+    //         toast.error("Something went wrong");
+    //     }
+    // },[result])
+
+    // function* handleSubmit(e) {
+    //     console.log("Form submitted", state);
+    //     e.preventDefault();
+    //     yield call(dispatch,signupRequest(state,navigate));
+    //     console.log("Async",result);
+    // }
+
+    async function handleSubmit(e) {
+        await console.log("Form submitted", state);
+        await e.preventDefault();
+        await dispatch(signupRequest(state,navigate));
+        console.log("Async",result);  
     }
 
     const customStyles = getCustomStyles();
@@ -58,22 +88,50 @@ function Signup() {
         })
     }
 
-    const handleBinaryChange = (e) => {
-        e.preventDefault();
 
+    const handleBinaryChange = (e) => {
+        
         setState({
             ...state,
-            [e.target.name]: URL.createObjectURL(e.target.files[0])
+            [e.target.name]: e.target.files[0]
         })
-    }
+
+        // return new Promise((resolve, reject) => {
+        //   console.log("method called");
+      
+        //   const file = e.target.files[0];
+        //   if (file) {
+        //     const reader = new FileReader();
+        //     reader.onload = function (event) {
+        //       const arrayBuffer = event.target.result;
+        //       const byteArray = new Uint8Array(arrayBuffer);
+        //       console.log("byteArray:", byteArray);
+        //       resolve(byteArray); // Resolve the promise with the byteArray
+        //     };
+        //     reader.readAsArrayBuffer(file);
+        //   } else {
+        //     reject(new Error("No file selected"));
+        //   }
+        // });
+      };
+      
+
+    // e.preventDefault();
+
+    // setState({
+    //     ...state,
+    //     [e.target.name]: e.target.files[0]
+    // })
 
 
     return (
+
+        (result.loading) ? <LoadingPage/> :
         <>
+            
             <style>
                 {customStyles}
             </style>
-
 
 
             <div className="center-horizontal">
@@ -151,9 +209,9 @@ function Signup() {
                                     <div className="col">
                                         <div className="form-floating m-2">
                                             <select id="role" name="role" value={state.Role} onChange={handleRoleChange} className="form-control" placeholder="Role">
-                                                <option value="">--Select Role--</option>
-                                                <option value="customer">Customer</option>
-                                                <option value="driver">Driver</option>
+                                                <option value=''>--Select Role--</option>
+                                                <option value='C'>Customer</option>
+                                                <option value='D'>Driver</option>
                                             </select>
                                             <label htmlFor="role">Role</label>
                                         </div>
@@ -161,7 +219,7 @@ function Signup() {
                                 </div>
 
                                 {
-                                    (state.Role === "driver") &&
+                                    (state.Role === 'D') &&
                                     <>
                                         <div className="row" style={{ width: "700px" }}>
 
@@ -193,6 +251,8 @@ function Signup() {
                     </main>
                 </div>
             </div>
+
+            
         </>
     )
 }

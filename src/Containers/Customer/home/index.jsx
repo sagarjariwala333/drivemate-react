@@ -3,19 +3,23 @@ import { getCustomStyles } from "./style";
 import $ from "jquery";
 import { useSelector, useDispatch } from "react-redux";
 import { reversegeoCodeRequest } from "../../../redux/reversegeolocation/actions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoadingPage from "../../Loading";
 import { fetchCurrentLocation } from "../../../redux/currentposition/actions";
 import { requestDistance } from "../../../redux/distance/actions";
+import { insertTripRequest } from "../../../redux/inserttrip/actions";
 
 function CustomerHome() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const { currentLocation, reverseGeoLocation, distanceReducer } = useSelector(
+
+  const { currentLocation, reverseGeoLocation, distanceReducer, insertTrip } = useSelector(
     (state) => ({
       currentLocation: state.CurrentLocation,
       reverseGeoLocation: state.ReverseGeoLocation,
       distanceReducer: state.Distance,
+      insertTrip: state.InsertTrip
     })
   );
 
@@ -25,7 +29,11 @@ function CustomerHome() {
     source: "",
     destination: "",
     datetime: "",
+    distance:"",
+    duration:"",
+    amount:""
   });
+
 
   const [distanceState, setDistanceState] = useState({
     text: "",
@@ -38,13 +46,13 @@ function CustomerHome() {
   });
 
   const handleFormChange = (e) => {
-    if (e.target.name !== "source") {
-      setFormData({
+    setFormData({
         ...formData,
         [e.target.name]: e.target.value,
       });
-    }
   };
+
+  
 
   async function handleDistanceCall() {
     return new Promise(async (resolve, reject) => {
@@ -60,19 +68,12 @@ function CustomerHome() {
   const handleCalculation = async (e) => {
     e.preventDefault();
     dispatch(requestDistance(formData));
-
-    //dispatch(requestDistance(formData));
-    // await handleDistanceCall().then(res => {
-    //   console.log("distance",distance);
-    // }).catch(error => {
-    //   console.log(error);
-    // })
-    //   console.log("distance reducer",distance);
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     console.log("Form submitted", formData);
+    dispatch(insertTripRequest(formData,navigate));
   };
 
   useEffect(() => {
@@ -87,15 +88,13 @@ function CustomerHome() {
   }, [reverseGeoLocation?.data?.formatted_address]);
 
   useEffect(() => {
-    const { distance, duration } = distanceReducer;
-    setDistanceState({
-      distance,
+    const { distance, duration } = distanceReducer.data;
+    setFormData({
+      ...formData,
+      distance:distance?.text,
+      duration:duration?.text,
+      amount:Math.abs(Math.ceil(distanceReducer.data?.distance?.value * 0.015)).toString()
     });
-
-    setDurationState({
-      duration,
-    });
-
     console.log(distance, duration);
   }, [distanceReducer]);
 
@@ -143,8 +142,10 @@ function CustomerHome() {
     IsPhoneConfirmed: false,
   });
 
+
   const handleSubmit = (e) => {
     console.log("Handle submit");
+    dispatch(insertTripRequest(formData,navigate));
     e.preventDefault();
   };
 
@@ -165,7 +166,8 @@ function CustomerHome() {
     <>
       {currentLocation.loading ||
       reverseGeoLocation.loading ||
-      distanceReducer.loading ? (
+      distanceReducer.loading || 
+      insertTrip.loading ? (
         <LoadingPage />
       ) : (
         <>
@@ -299,7 +301,8 @@ function CustomerHome() {
                         <div className="form-floating m-2">
                           <input
                             type="text"
-                            name="datetime"
+                            name="distance"
+                            onChange={handleFormChange}
                             disabled="true"
                             className="form-control"
                             id="floatingInput"
@@ -321,7 +324,8 @@ function CustomerHome() {
                           <input
                             type="text"
                             disabled="true"
-                            name="datetime"
+                            name="duration"
+                            onChange={handleFormChange}
                             className="form-control"
                             id="floatingInput"
                             value={
@@ -341,8 +345,9 @@ function CustomerHome() {
                         <div className="form-floating m-2">
                           <input
                             type="text"
-                            name="datetime"
+                            name="amount"
                             disabled="true"
+                            onChange={handleFormChange}
                             className="form-control"
                             id="floatingInput"
                             value={

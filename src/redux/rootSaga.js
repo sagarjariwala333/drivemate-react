@@ -8,6 +8,7 @@ import reversegeoLocationSaga from './reversegeolocation/saga';
 import currentLocationSaga from './currentposition/saga';
 import distanceSaga from './distance/saga';
 import loginSaga from './login/saga';
+import tripRequestSaga from './inserttrip/saga';
 // Import other sagas here
 
 function* rootSaga() {
@@ -20,7 +21,9 @@ function* rootSaga() {
     fork(reversegeoLocationSaga),
     fork(currentLocationSaga),
     fork(distanceSaga),
-    fork(loginSaga)
+    fork(loginSaga),
+    fork(tripRequestSaga),
+    fork(viewTripsSaga)
     // Add other forked sagas here
   ]);
 }

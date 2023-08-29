@@ -6,10 +6,11 @@ export const test=()=>{
     }
 }
 
-export const signupRequest=(data)=>{
+export const signupRequest=(data, navigate)=>{
     return {
         type: SIGNUP_REQUEST,
-        data
+        data,
+        navigate
     }
 }
 

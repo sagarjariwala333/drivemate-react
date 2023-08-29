@@ -3,22 +3,27 @@ import Header from "../../Header";
 import './style.css';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDriverRequest } from '../../../redux/viewdriver/actions';
+import { remainTripRequest } from "../../../redux/viewremaintrip/actions";
+import LoadingPage from '../../Loading';
 
 function DriverHome() {
 
     const dispatch = useDispatch();
 
-    const res = useSelector(state => state.ViewDriver);
+    const {res, viewRemainTrip} = useSelector(
+        state => state.ViewDriver,
+        state => state.ViewRemainTrip
+        );
 
     useEffect(() => {
-        dispatch(fetchDriverRequest());
-        //setState(res);
-    }, [dispatch])
+        dispatch(remainTripRequest(null));
+    }, [])
 
 
     console.log(res);
 
     return (
+        (viewRemainTrip?.loading) ? <LoadingPage/> :
         <>
             <div className="p-5">
 

@@ -1,17 +1,21 @@
 import React, { useState } from "react"
 import { getCustomStyles } from './style';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginRequest } from '../../redux/login/actions'
-
+import { useNavigate } from "react-router-dom";
+import LoadingPage from '../Loading';
 
 function Login()
 {
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [state,setState]=useState({
         email:"",
         password:""
     });
+
+    const result = useSelector(state => state.Login)
 
     const handleFormChange=(e)=>{
         e.preventDefault();
@@ -24,12 +28,13 @@ function Login()
     const handleFormSubmit=(e)=>{
         e.preventDefault();
         console.log("form submit",state);
-        dispatch(loginRequest(state))
+        dispatch(loginRequest(state,navigate))
     }
 
     const customStyles = getCustomStyles();
 
     return (
+        result.loading ? <LoadingPage/> :
         <>
         <style>
             {customStyles}
