@@ -9,6 +9,7 @@ import currentLocationSaga from './currentposition/saga';
 import distanceSaga from './distance/saga';
 import loginSaga from './login/saga';
 import tripRequestSaga from './inserttrip/saga';
+import viewRemainTripSaga from './viewremaintrip/saga';
 // Import other sagas here
 
 function* rootSaga() {
@@ -23,7 +24,8 @@ function* rootSaga() {
     fork(distanceSaga),
     fork(loginSaga),
     fork(tripRequestSaga),
-    fork(viewTripsSaga)
+    fork(viewTripsSaga),
+    fork(viewRemainTripSaga)
     // Add other forked sagas here
   ]);
 }

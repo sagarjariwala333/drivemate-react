@@ -1,6 +1,7 @@
 import { VIEW_REMAIN_TRIP_REQUEST, VIEW_REMAIN_TRIP_SUCCESS, VIEW_REMAIN_TRIP_FAILURE } from './types'
 
 export const remainTripRequest=(data)=>{
+    console.log("remain trip action request",data);
     return {
         type: VIEW_REMAIN_TRIP_REQUEST,
         data

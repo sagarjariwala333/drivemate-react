@@ -21,7 +21,12 @@ function* doLogin(action) {
 
         if(isLoggedIn)
         {
-          if(profile.role === 'C')
+          if(profile.role === 'C' && profile.firstName === "Admin")
+          {
+            yield call(navigate,"/admin/");
+            yield call(toast.success,"Login successful");
+          }
+          else if(profile.role === 'C')
           {
             yield call(navigate,"/customer/");
             yield call(toast.success,"Login successful");
@@ -29,11 +34,6 @@ function* doLogin(action) {
           else if(profile.role === 'D')
           {
             yield call(navigate,"/driver");
-            yield call(toast.success,"Login successful");
-          }
-          else if(profile.role === 'A')
-          {
-            yield call(navigate,"/admin/");
             yield call(toast.success,"Login successful");
           }
           else

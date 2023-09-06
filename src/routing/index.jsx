@@ -31,6 +31,7 @@ const Routing=()=>{
         <Routes>
           <Route path="/login" Component={Login} />
           <Route path="/signup" Component={Signup} />
+          
           <Route path="/customer/" 
           element=
           {
@@ -39,6 +40,7 @@ const Routing=()=>{
             <CustomerHome/>
             </>
           }/>
+
           <Route path="/customer/finddrivers" 
           element={
             <>
@@ -48,8 +50,21 @@ const Routing=()=>{
           }
           /> 
 
-          <Route path="/driver/" Component={DriverHome} />
-          <Route path="/admin/" Component={AdminHome} />
+          <Route path="/driver/" 
+          element={
+            <>
+            <DriverHeader/>
+            <DriverHome/>
+            </>
+          } />
+
+          <Route path="/admin/" 
+          element={
+            <>
+            <AdminHeader/>
+            <AdminHome/>
+            </>
+          } />
           <Route path="/error/" Component={DefaultError}/>
 
           <Route

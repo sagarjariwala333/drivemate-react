@@ -26,7 +26,7 @@ function CustomerHome() {
   const [address, setAddress] = useState("");
 
   const [formData, setFormData] = useState({
-    source: "",
+    source: "source",
     destination: "",
     datetime: "",
     distance:"",

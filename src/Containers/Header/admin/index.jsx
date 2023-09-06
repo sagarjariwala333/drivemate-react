@@ -1,7 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signout } from "../../../services/authservice";
+
 
 function AdminHeader() {
+
+    const navigate = useNavigate();
+
+    const logout=()=>{
+        signout(navigate);
+    }
+
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -21,6 +30,9 @@ function AdminHeader() {
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="/admin/trips">Trips</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" onClick={logout}>Logout</Link>
                             </li>
                         </ul>
                     </div>

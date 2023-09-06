@@ -13,8 +13,19 @@ function* viewRemainTripRequest(action) {
     try
     {
         const res = yield call(viewRemainTrips,token);
-        console.log(res);
-        yield put({type:VIEW_REMAIN_TRIP_SUCCESS, data:res});
+        console.log("view remain trips",res);
+
+        if(res.data.success)
+        {
+            yield put({type:VIEW_REMAIN_TRIP_SUCCESS, data:res.data.result});
+            //return res.data.result
+        }
+        else
+        {
+            yield put({type:VIEW_REMAIN_TRIP_FAILURE, error:"Something went wrong"});
+            
+        }
+
     }
     catch(error)
     {

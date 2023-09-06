@@ -68,7 +68,7 @@ export const viewRemainTrips=(token)=>{
     const url = API_ENDPOINT + "Trip/GetRemainTrips";
     try
     {
-        const res = axios.post(url,{
+        const res = axios.get(url,{
             headers:{
                 Authorization: `Bearer ${token}`
             }
