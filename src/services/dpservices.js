@@ -80,3 +80,37 @@ export const viewRemainTrips=(token)=>{
         throw err;
     }
 }
+
+export const driverAcceptTrip=(token,data)=>{
+    const url = API_ENDPOINT + "Trip/AcceptTrip";
+    try
+    {
+        const res = axios.post(url,data,{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return res;
+    }
+    catch(err)
+    {
+        throw err;
+    }
+}
+
+export const viewBookedTrips=(token)=>{
+    const url = API_ENDPOINT + "Trip/ViewBookedTrip";
+    try
+    {
+        const res = axios.get(url,{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return res;
+    }
+    catch(err)
+    {
+        throw err;
+    }
+}

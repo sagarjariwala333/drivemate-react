@@ -5,14 +5,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDriverRequest } from '../../../redux/viewdriver/actions';
 import { remainTripRequest } from "../../../redux/viewremaintrip/actions";
 import LoadingPage from '../../Loading';
+import { requestUpdateTrip } from "../../../redux/driveraccepttrip/actions";
+import { useNavigate } from "react-router-dom";
+import StartTripModal from "../../StartTripModal";
 
 function DriverHome() {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const viewRemainTrip = useSelector(
-        state => state.ViewRemainTrip
-    );
+    const { viewRemainTrip, driverAccept } = useSelector(state => ({
+        viewRemainTrip: state.ViewRemainTrip,
+        driverAccept: state.DriverAccept
+    }));
+
 
     useEffect(() => {
         console.log("Driver home");
@@ -23,13 +29,17 @@ function DriverHome() {
         console.log("templ", viewRemainTrip);
     }, [viewRemainTrip])
 
+    function handleAcceptTrip(id) {
+        dispatch(requestUpdateTrip({ id }, navigate));
+        
+    }
+
 
     //console.log(res);
 
     return (
-        (viewRemainTrip?.loading) ? <LoadingPage /> :
+        (viewRemainTrip?.loading || driverAccept?.loading) ? <LoadingPage /> :
             <>
-
                 <div className="p-5">
                     <div class="container p-5">
                         <div class="row">
@@ -77,7 +87,7 @@ function DriverHome() {
                         <tbody>
 
                             {
-                                viewRemainTrip.data.map(trip => {
+                                viewRemainTrip?.data?.map(trip => {
                                     return (
                                         <>
 
@@ -89,8 +99,7 @@ function DriverHome() {
                                                 <td>{trip.amount}</td>
                                                 <td>{trip.distance}</td>
                                                 <td>
-                                                    <button className="btn btn-primary m-1"> Accept </button>
-                                                    <button className="btn btn-danger m-1"> Reject </button>
+                                                    <button className="btn btn-primary m-1" onClick={() => handleAcceptTrip(trip.id)}> Accept </button>
                                                 </td>
                                             </tr>
 
@@ -107,14 +116,14 @@ function DriverHome() {
                                 <td>Miami</td>
                                 <td>987-654-3210</td>
                                 <td>
-                                    <button className="btn btn-primary m-1"> Accept </button>
-                                    <button className="btn btn-danger m-1"> Reject </button>
+                                    <button className="btn btn-primary m-1" onClick={handleAcceptTrip}> Accept </button>
                                 </td>
                             </tr>
                         </tbody>
 
                     </table>
                 </div>
+
             </>
     )
 

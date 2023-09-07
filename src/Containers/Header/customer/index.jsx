@@ -33,6 +33,9 @@ function CustomerHeader() {
                                 <Link className="nav-link" to="/customer/update">Update</Link>
                             </li>
                             <li className="nav-item">
+                                <Link className="nav-link" to="/customer/viewbookedtrips">Booked Trips</Link>
+                            </li>
+                            <li className="nav-item">
                                 <Link className="nav-link" onClick={logout}>Logout</Link>
                             </li>
                         </ul>

@@ -20,52 +20,71 @@ import CustomerRouting from "./CustomerRouting";
 import AdminHome from "../Containers/Admin/Home";
 import DefaultError from "../Containers/Error/Default";
 import FindingDrivers from "../Containers/FindingDrivers";
+import StartTrip from "../Containers/Driver/starttrip";
+import BookedTrips from "../Containers/Customer/bookedtrips";
 
-const Routing=()=>{
+const Routing = () => {
 
-    //const [isAuthenticated,setAuthenticated] = useState(false);    
+  //const [isAuthenticated,setAuthenticated] = useState(false);    
 
-    return (
+  return (
     <>
-    <BrowserRouter>
+      <BrowserRouter>
         <Routes>
           <Route path="/login" Component={Login} />
           <Route path="/signup" Component={Signup} />
-          
-          <Route path="/customer/" 
-          element=
-          {
-            <>
-            <CustomerHeader />
-            <CustomerHome/>
-            </>
-          }/>
 
-          <Route path="/customer/finddrivers" 
-          element={
-            <>
-            <CustomerHeader/>
-            <FindingDrivers/>
-            </>
-          }
-          /> 
+          <Route path="/customer/"
+            element=
+            {
+              <>
+                <CustomerHeader />
+                <CustomerHome />
+              </>
+            } />
 
-          <Route path="/driver/" 
-          element={
-            <>
-            <DriverHeader/>
-            <DriverHome/>
-            </>
-          } />
+          <Route path="/customer/finddrivers"
+            element={
+              <>
+                <CustomerHeader />
+                <BookedTrips />
+              </>
+            }
+          />
 
-          <Route path="/admin/" 
-          element={
-            <>
-            <AdminHeader/>
-            <AdminHome/>
-            </>
-          } />
-          <Route path="/error/" Component={DefaultError}/>
+          <Route path="/customer/viewbookedtrips"
+            element={
+              <>
+                <CustomerHeader />
+                <BookedTrips />
+              </>
+            }
+          />
+
+          <Route path="/driver/"
+            element={
+              <>
+                <DriverHeader />
+                <DriverHome />
+              </>
+            } />
+
+          <Route path="/driver/starttrip"
+            element={
+              <>
+                <DriverHeader />
+                <StartTrip />
+              </>
+            } />
+
+          <Route path="/admin/"
+            element={
+              <>
+                <AdminHeader />
+                <AdminHome />
+              </>
+            } />
+          <Route path="/error/" Component={DefaultError} />
 
           <Route
             path="/customer/trips"
@@ -135,7 +154,7 @@ const Routing=()=>{
             element={
               <>
                 <CustomerHeader />
-                <Profile/>
+                <Profile />
               </>
             }
           />
@@ -144,7 +163,7 @@ const Routing=()=>{
             element={
               <>
                 <DriverHeader />
-                <Profile/>
+                <Profile />
               </>
             }
           />
@@ -153,7 +172,7 @@ const Routing=()=>{
             element={
               <>
                 <DriverHeader />
-                <ViewTrip/>
+                <ViewTrip />
               </>
             }
           />
@@ -170,7 +189,7 @@ const Routing=()=>{
             path="/admin/oneuser"
             element={
               <>
-                <CustomerHeader/>
+                <CustomerHeader />
                 <Profile />
               </>
             }
@@ -178,7 +197,7 @@ const Routing=()=>{
         </Routes>
       </BrowserRouter>
     </>
-    )
+  )
 }
 
 export default Routing;

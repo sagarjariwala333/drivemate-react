@@ -138,12 +138,7 @@ function ViewTrip() {
 
                                 </div>
 
-
-
                             </div>
-
-
-
                         </form>
                     </main>
                 </div>

@@ -10,6 +10,8 @@ import distanceReducer from "./distance/reducer";
 import loginReducer from "./login/reducer";
 import insertTripRequestReducer from "./inserttrip/reducer";
 import viewRemainTripReducer from "./viewremaintrip/reducer";
+import driverAcceptReducer from "./driveraccepttrip/reducer";
+import viewBookedTripReducer from "./viewbookedtrips/reducer";
 
 
 const rootReducer = combineReducers({
@@ -23,7 +25,9 @@ const rootReducer = combineReducers({
     Distance: distanceReducer,
     Login: loginReducer,
     InsertTrip: insertTripRequestReducer,
-    ViewRemainTrip:viewRemainTripReducer 
+    ViewRemainTrip:viewRemainTripReducer,
+    DriverAccept:driverAcceptReducer,
+    ViewBookedTrip:viewBookedTripReducer 
 });
 
 export default rootReducer;
