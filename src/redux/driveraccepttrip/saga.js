@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 function* driverAcceptRequest(action)
 {
-    const {data,type, navigate} = action;
+    const {data,type, navigate, mobile} = action;
     
     console.warn("Sign up Saga",data);
 
@@ -14,8 +14,14 @@ function* driverAcceptRequest(action)
     {
         const token = yield call(getToken);
         let res = yield call(driverAcceptTrip,token,data);
+        console.log("accept saga",res);
         yield put({type:UPDATE_TRIP_SUCCESS,data:res})
-        yield call(navigate,'/driver/starttrip', {state: res});
+        let obj = {
+          ...res.data.result,
+          mobile
+        }
+        yield call(navigate,'/driver/starttrip', {state: obj});
+        //navigate('/driver/starttrip',{state: res});
         yield call(toast.success,"Success");
     }
     catch(err)

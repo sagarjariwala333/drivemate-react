@@ -1,4 +1,4 @@
-import { VIEW_BOOKED_TRIPS_REQUEST, VIEW_BOOKED_TRIPS_SUCCESS, VIEW_BOOKED_TRIPS_FAILURE } from "./types";
+import { END_TRIP_REQUEST, END_TRIP_SUCCESS, END_TRIP_FAILURE } from "./types";
 
 const initialState = {
   loading: false,
@@ -6,12 +6,12 @@ const initialState = {
   error: null,
 };
 
-const viewBookedTripReducer=(state=initialState, action)=>{
+const endTripReducer=(state=initialState, action)=>{
     const { type,data,error } = action;
 
     switch(type)
     {
-        case VIEW_BOOKED_TRIPS_REQUEST:
+        case END_TRIP_REQUEST:
           //console.warn("Sign up request");
           return {
             ...state,
@@ -19,8 +19,7 @@ const viewBookedTripReducer=(state=initialState, action)=>{
             error:null
           }
 
-        case VIEW_BOOKED_TRIPS_SUCCESS:
-          console.log("Reducer successes",data);
+        case END_TRIP_SUCCESS:
           //console.warn("Reducers signup");
           return {
             ...state,
@@ -29,7 +28,7 @@ const viewBookedTripReducer=(state=initialState, action)=>{
             error:null
           }
 
-          case VIEW_BOOKED_TRIPS_FAILURE:
+          case END_TRIP_FAILURE:
             //console.warn("Reducers signup fail");
             return {
               ...state,
@@ -42,4 +41,4 @@ const viewBookedTripReducer=(state=initialState, action)=>{
     }
 }
 
-export default viewBookedTripReducer;
+export default endTripReducer;

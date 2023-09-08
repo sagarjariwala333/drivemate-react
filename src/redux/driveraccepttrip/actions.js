@@ -1,10 +1,11 @@
 import { UPDATE_TRIP_REQUEST, UPDATE_TRIP_SUCCESS, UPDATE_TRIP_FAILURE } from "./types"
 
-export const requestUpdateTrip=(data,navigate)=>{
+export const requestUpdateTrip=(data,navigate,mobile)=>{
     return {
         type:UPDATE_TRIP_REQUEST,
         data,
-        navigate
+        navigate,
+        mobile
     }
 }
 

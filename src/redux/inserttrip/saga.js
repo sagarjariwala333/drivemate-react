@@ -19,6 +19,11 @@ function* tripRequest(action) {
             yield call(navigate,"/customer/finddrivers");
             toast.success("Finding drivers");
         }
+        else if(result.data.message === "Limit exceed")
+        {
+            yield put({type:INSERT_TRIP_FAILURE,error:"One trip already booked"})
+            toast.error("Already one trip booked");
+        }
         else
         {
             yield put({type:INSERT_TRIP_FAILURE,error:"Something went wrong"})

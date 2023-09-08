@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../Header";
 import './style.css';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDriverRequest } from '../../../redux/viewdriver/actions';
 import { remainTripRequest } from "../../../redux/viewremaintrip/actions";
 import LoadingPage from '../../Loading';
 import { requestUpdateTrip } from "../../../redux/driveraccepttrip/actions";
 import { useNavigate } from "react-router-dom";
-import StartTripModal from "../../StartTripModal";
 
 function DriverHome() {
 
@@ -29,9 +26,8 @@ function DriverHome() {
         console.log("templ", viewRemainTrip);
     }, [viewRemainTrip])
 
-    function handleAcceptTrip(id) {
-        dispatch(requestUpdateTrip({ id }, navigate));
-        
+    function handleAcceptTrip(id,mobile) {
+        dispatch(requestUpdateTrip({ id }, navigate, { mobile }));
     }
 
 
@@ -99,7 +95,7 @@ function DriverHome() {
                                                 <td>{trip.amount}</td>
                                                 <td>{trip.distance}</td>
                                                 <td>
-                                                    <button className="btn btn-primary m-1" onClick={() => handleAcceptTrip(trip.id)}> Accept </button>
+                                                    <button className="btn btn-primary m-1" onClick={() => handleAcceptTrip(trip.id,trip.mobileNo)}> Accept </button>
                                                 </td>
                                             </tr>
 

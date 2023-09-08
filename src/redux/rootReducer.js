@@ -11,6 +11,8 @@ import loginReducer from "./login/reducer";
 import insertTripRequestReducer from "./inserttrip/reducer";
 import viewRemainTripReducer from "./viewremaintrip/reducer";
 import driverAcceptReducer from "./driveraccepttrip/reducer";
+import startTripReducer from "./starttrip/reducer";
+import endTripReducer from "./endtrip/reducer";
 import viewBookedTripReducer from "./viewbookedtrips/reducer";
 
 
@@ -27,7 +29,9 @@ const rootReducer = combineReducers({
     InsertTrip: insertTripRequestReducer,
     ViewRemainTrip:viewRemainTripReducer,
     DriverAccept:driverAcceptReducer,
-    ViewBookedTrip:viewBookedTripReducer 
+    StartTrip: startTripReducer,
+    EndTrip: endTripReducer ,
+    ViewBookedTrips: viewBookedTripReducer
 });
 
 export default rootReducer;

@@ -1,23 +1,23 @@
-import { VIEW_BOOKEDTRIPS_REQUEST, VIEW_BOOKEDTRIPS_SUCCESS, VIEW_BOOKEDTRIPS_FAILURE } from './types'
+import { VIEW_BOOKED_TRIPS_REQUEST, VIEW_BOOKED_TRIPS_SUCCESS, VIEW_BOOKED_TRIPS_FAILURE } from './types'
 
-export const viewBookedTripRequest=(data)=>{
-    console.log("booked trip action request",data);
+export const bookedTripRequest=()=>{
+    console.log("Booked trips request");
+    //console.log("remain trip action request",data);
     return {
-        type: VIEW_BOOKEDTRIPS_REQUEST,
-        data
+        type: VIEW_BOOKED_TRIPS_REQUEST,
     }
 }
 
-export const viewBookedTripSuccess=(data)=>{
+export const bookedTripSuccess=(data)=>{
     return {
-        type: VIEW_BOOKEDTRIPS_SUCCESS,
+        type: VIEW_BOOKED_TRIPS_SUCCESS,
         data
     }    
 }
 
-export const viewBookedTripFailure=(error)=>{
+export const bookedTripFailure=(error)=>{
     return {
-        type: VIEW_BOOKEDTRIPS_FAILURE,
+        type: VIEW_BOOKED_TRIPS_FAILURE,
         error
     }    
 }

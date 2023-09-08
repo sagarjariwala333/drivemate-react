@@ -1,5 +1,6 @@
 import axios from "axios"
 import { API_ENDPOINT } from "../assets/environment"
+import { getToken } from "./authservice";
 
 export const Signup = async (data) => {
 
@@ -103,6 +104,59 @@ export const viewBookedTrips=(token)=>{
     try
     {
         const res = axios.get(url,{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return res;
+    }
+    catch(err)
+    {
+        throw err;
+    }
+}
+
+export const customerViewBookedTrips=(token)=>{
+    const url = API_ENDPOINT + "Trip/CustomerViewBookedTrip";
+    try
+    {
+        const res = axios.get(url,{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return res;
+    }
+    catch(err)
+    {
+        throw err;
+    }
+}
+
+export const startTrip= async (id)=>{
+    const token = await getToken();
+    const url = API_ENDPOINT + "Trip/StartTrip";
+    try
+    {
+        const res = axios.post(url,{id},{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return res;
+    }
+    catch(err)
+    {
+        throw err;
+    }
+}
+
+export const endTrip= async (id)=>{
+    const token = await getToken();
+    const url = API_ENDPOINT + "Trip/EndTrip";
+    try
+    {
+        const res = axios.post(url,{id},{
             headers:{
                 Authorization: `Bearer ${token}`
             }
