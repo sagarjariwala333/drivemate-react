@@ -168,3 +168,75 @@ export const endTrip= async (id)=>{
         throw err;
     }
 }
+
+export const getAllTrips= async ()=>{
+    const token = await getToken();
+    const url = API_ENDPOINT + "Admin/GetAllTrips";
+    try
+    {
+        const res = axios.get(url,{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return res;
+    }
+    catch(err)
+    {
+        throw err;
+    }
+}
+
+export const getTripById= async (id)=>{
+    const token = await getToken();
+    const url = API_ENDPOINT + "Admin/GetTripById";
+    try
+    {
+        const res = axios.post(url,{id},{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return res;
+    }
+    catch(err)
+    {
+        throw err;
+    }
+}
+
+export const getAllUsers= async (role)=>{
+    const token = await getToken();
+    const url = API_ENDPOINT + "Admin/GetAllUsers";
+    try
+    {
+        const res = axios.post(url,{role},{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return res;
+    }
+    catch(err)
+    {
+        throw err;
+    }
+}
+
+export const getUserById = async (id)=>{
+    const token = await getToken();
+    const url = API_ENDPOINT + "Admin/GetUserById";
+    try
+    {
+        const res = axios.post(url,{id},{
+            headers:{
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return res;
+    }
+    catch(err)
+    {
+        throw err;
+    }
+}

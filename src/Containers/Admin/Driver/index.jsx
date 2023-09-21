@@ -2,17 +2,19 @@ import React, { useEffect, useState } from "react";
 import Header from "../../Header";
 import './style.css';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDriverRequest } from '../../../redux/viewdriver/actions';
+import { fetchCustomerRequest } from '../../../redux/viewcustomer/actions';
 import { Link } from "react-router-dom";
 
 function Drivers() {
 
   const dispatch = useDispatch();
 
-  const res = useSelector(state => state.ViewDriver);
+  const res = useSelector(state => state.ViewCustomer);
+
+  console.log(res)
 
   useEffect(() => {
-    dispatch(fetchDriverRequest());
+    dispatch(fetchCustomerRequest("D"));
     //setState(res);
   }, [dispatch])
 
@@ -21,6 +23,7 @@ function Drivers() {
 
   return (
     <>
+    {(res?.loading) ? <>Loading...</> :
       <div className="p-5">
       <table id="Admin" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
         <thead>
@@ -34,8 +37,6 @@ function Drivers() {
             <th className="th-sm">Mobile_No
 
             </th>
-            <th className="th-sm">Status
-            </th>
 
             <th className="th-sm"> Action
 
@@ -46,15 +47,13 @@ function Drivers() {
         <tbody>
 
           {
-            res.data?.map(x => (
+            res?.data?.map(x => (
               <tr>
-                <td>{x.Name}</td>
-                <td>{x.Email}</td>
-                <td>{x.Mobile_No}</td>
-                <td>{x.Status}</td>
+                <td>{x.firstName +" "+x.lastName}</td>
+                <td>{x.email}</td>
+                <td>{x.phoneNo}</td>
                 <td>
-                <Link className="btn btn-primary" to="/admin/driver/profile"> View </Link>
-               
+                  <Link className="btn btn-primary" to={"/admin/profile/" + x.id}> View </Link>
                 </td>
               </tr>
             ))
@@ -63,7 +62,7 @@ function Drivers() {
         </tbody>
 
       </table>
-      </div>
+      </div>}
     </>
   )
 

@@ -1,9 +1,9 @@
 import { FETCH_TRIPS_RESQUEST, FETCH_TRIPS_SUCCESS, FETCH_TRIPS_FAILURE } from './types';
 
-export const fetchTripsRequest=(data)=>{
+export const fetchTripsRequest=()=>{
     return {
         type: FETCH_TRIPS_RESQUEST,
-        data
+        
     }
 }
 

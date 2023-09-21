@@ -68,12 +68,12 @@ function UpdateProfile() {
 
                                 <div className="row" style={{ width: "700px" }}>
 
-                                    <div>
+                                    {/* <div>
                                         
                                         <img src={img} alt="img" className="profile" />
                                         <input type="file" id="img" name="profilepic" accept="image/*" className="w-100" onChange={handleChangeImage} />
 
-                                    </div>
+                                    </div> */}
 
                                     <div className="col">
                                         <div className="form-floating m-2">
@@ -95,14 +95,14 @@ function UpdateProfile() {
 
                                     <div className="col">
                                         <div className="form-floating m-2">
-                                            <input type="text" name="PhoneNo" onChange={handleChange} size="10" className="form-control" id="floatingPassword" placeholder="Password" />
+                                            <input type="text" name="PhoneNo" onChange={handleChange} size="10" className="form-control" id="floatingPassword" placeholder="Password" disabled/>
                                             <label htmlFor="floatingPassword">Mobile Number</label>
                                         </div>
                                     </div>
 
                                     <div className="col">
                                         <div className="form-floating m-2">
-                                            <input type="email" name="Email" onChange={handleChange} className="form-control" id="floatingInput" placeholder="name@example.com" />
+                                            <input type="email" name="Email" onChange={handleChange} className="form-control" id="floatingInput" placeholder="name@example.com" disabled/>
                                             <label htmlFor="floatingInput">Email address</label>
                                         </div>
                                     </div>
@@ -110,7 +110,7 @@ function UpdateProfile() {
 
 
 
-                                <div className="row" style={{ width: "700px" }}>
+                                {/* <div className="row" style={{ width: "700px" }}>
 
                                     <div className="col">
                                         <div className="form-floating m-2">
@@ -128,7 +128,7 @@ function UpdateProfile() {
                                             <input type="file" />
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
 
                             </div>
 

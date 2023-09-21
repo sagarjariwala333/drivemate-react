@@ -150,10 +150,10 @@ const Routing = () => {
             }
           />
           <Route
-            path="/admin/customer/profile"
+            path="/admin/profile/:id?"
             element={
               <>
-                <CustomerHeader />
+                <AdminHeader />
                 <Profile />
               </>
             }
@@ -172,7 +172,7 @@ const Routing = () => {
             element={
               <>
                 <DriverHeader />
-                <ViewTrip />
+                <Trips />
               </>
             }
           />

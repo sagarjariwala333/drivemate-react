@@ -9,7 +9,7 @@
 
 export const LOCATIONIQ_ENDPOINT = "https://api.distancematrix.ai"
 export const LOCATIONIQ_URL = "/maps/api/geocode/json?"
-export const LOCATIONIQ_KEY = "UpKr8FBlsXXr6pJUtvPABHxAmjNZl"
+export const LOCATIONIQ_KEY = "ziHIXS6n1yVWLpHzRXCXUPG2cQkII"
 export const API_ENDPOINT = "https://localhost:7094/api/"
 
 

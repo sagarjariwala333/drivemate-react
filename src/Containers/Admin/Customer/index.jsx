@@ -11,8 +11,9 @@ function Customer() {
 
   const res = useSelector(state => state.ViewCustomer);
 
+
   useEffect(() => {
-    dispatch(fetchCustomerRequest());
+    dispatch(fetchCustomerRequest("C"));
     //setState(res);
   }, [dispatch])
 
@@ -21,6 +22,7 @@ function Customer() {
 
   return (
     <>
+    {(res?.loading) ? <>Loading...</> :
       <div className="p-5">
       <table id="Admin" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
         <thead>
@@ -34,8 +36,6 @@ function Customer() {
             <th className="th-sm">Mobile_No
 
             </th>
-            <th className="th-sm">Status
-            </th>
 
             <th className="th-sm"> Action
 
@@ -46,14 +46,14 @@ function Customer() {
         <tbody>
 
           {
-            res.data.map(x => (
+            res?.data?.map &&
+            res?.data?.map(x => (
               <tr>
-                <td>{x.Name}</td>
-                <td>{x.Email}</td>
-                <td>{x.Mobile_No}</td>
-                <td>{x.Status}</td>
+                <td>{x.firstName +" "+x.lastName}</td>
+                <td>{x.email}</td>
+                <td>{x.phoneNo}</td>
                 <td>
-                  <Link className="btn btn-primary" to="/admin/customer/profile"> View </Link>
+                  <Link className="btn btn-primary" to={"/admin/profile/" + x.id}> View </Link>
                 </td>
               </tr>
             ))
@@ -62,7 +62,7 @@ function Customer() {
         </tbody>
 
       </table>
-      </div>
+      </div>}
     </>
   )
 
