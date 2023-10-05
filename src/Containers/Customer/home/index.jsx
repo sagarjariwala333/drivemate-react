@@ -195,7 +195,7 @@ function CustomerHome() {
 
                       <div className="col-3">
                         <div className="form-floating m-2">
-                          <Link onClick={getLocation}>Get Location</Link>
+                          <button className="btn btn-primary" onClick={getLocation}>Get Location</button>
                         </div>
                       </div>
                     </div>
@@ -366,9 +366,9 @@ function CustomerHome() {
 
                     <div className="row" style={{ width: "700px" }}>
                       <div className="col-6">
-                        <Link onClick={handleCalculation} className="">
+                        <button className="btn btn-primary" onClick={handleCalculation} >
                           Calculate
-                        </Link>
+                        </button>
                       </div>
 
                       <div className="col-6">
