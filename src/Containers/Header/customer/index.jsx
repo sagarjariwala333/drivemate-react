@@ -29,9 +29,9 @@ function CustomerHeader() {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/customer/profile">Profile</Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link className="nav-link" to="/customer/update">Update</Link>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
                                 <Link className="nav-link" to="/customer/viewbookedtrips">Booked Trips</Link>
                             </li>

@@ -95,11 +95,33 @@ const Routing = () => {
               </>
             }
           />
+
+<Route
+            path="/driver/trips"
+            element={
+              <>
+                <DriverHeader />
+                <Trips />
+              </>
+            }
+          />
+
+
+
           <Route
             path="/customer/profile"
             element={
               <>
                 <CustomerHeader />
+                <Profile />
+              </>
+            }
+          />
+          <Route
+            path="/driver/profile"
+            element={
+              <>
+                <DriverHeader />
                 <Profile />
               </>
             }
@@ -117,7 +139,7 @@ const Routing = () => {
             path="/driver/"
             element={
               <>
-                <CustomerHeader />
+                <DriverHeader />
                 <DriverHome />
               </>
             }

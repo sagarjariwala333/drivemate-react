@@ -225,7 +225,17 @@ export const getAllUsers= async (role)=>{
 
 export const getUserById = async (id)=>{
     const token = await getToken();
-    const url = API_ENDPOINT + "Admin/GetUserById";
+
+    let url;
+
+    if(id)
+    {
+        url = API_ENDPOINT + "Admin/GetUserById";
+    }
+    else
+    {
+        url = API_ENDPOINT + "Admin/GetUserByIdProfile"
+    }
     try
     {
         const res = axios.post(url,{id},{

@@ -22,17 +22,17 @@ function DriverHeader() {
                     <div className="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link active" aria-current="page" to="/customer/">Home</Link>
+                                <Link className="nav-link active" aria-current="page" to="/driver/">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/customer/trips">Trips</Link>
+                                <Link className="nav-link" to="/driver/trips">Trips</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/customer/profile">Profile</Link>
+                                <Link className="nav-link" to="/driver/profile">Profile</Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link className="nav-link" to="/customer/update">Update</Link>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
                                 <Link className="nav-link" onClick={logout}>Logout</Link>
                             </li>

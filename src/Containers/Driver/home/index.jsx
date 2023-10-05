@@ -16,6 +16,19 @@ function DriverHome() {
         driverAccept: state.DriverAccept
     }));
 
+    function callApi()
+    {
+        dispatch(remainTripRequest(null));
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+          callApi();
+        }, 5000); 
+        
+        return () => clearInterval(interval);
+      }, []); 
+      
 
     useEffect(() => {
         console.log("Driver home");
@@ -37,21 +50,7 @@ function DriverHome() {
         (viewRemainTrip?.loading || driverAccept?.loading) ? <LoadingPage /> :
             <>
                 <div className="p-5">
-                    <div class="container p-5">
-                        <div class="row">
-                            <div class="col">
-                                <h1>
-                                    Trips: 20
-                                </h1>
-                            </div>
-                            <div class="col">
-                                <h1>Customers: 15</h1>
-                            </div>
-                            <div class="col">
-                                <h1>Earning: 2000</h1>
-                            </div>
-                        </div>
-                    </div>
+                    
 
                     <table id="Admin" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                         <thead>
@@ -104,17 +103,6 @@ function DriverHome() {
                                 })
                             }
 
-
-
-                            <tr>
-                                <td>Alice Johnson</td>
-                                <td>Chicago</td>
-                                <td>Miami</td>
-                                <td>987-654-3210</td>
-                                <td>
-                                    <button className="btn btn-primary m-1" onClick={handleAcceptTrip}> Accept </button>
-                                </td>
-                            </tr>
                         </tbody>
 
                     </table>

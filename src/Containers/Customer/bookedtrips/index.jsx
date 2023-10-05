@@ -10,9 +10,24 @@ const BookedTrips = () => {
 
     const viewBookedTrip = useSelector(state => state.ViewBookedTrips)
 
+    function callApi()
+    {
+        dispatch(bookedTripRequest())   
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            callApi();
+        }, 5000);
+    
+        return () => clearInterval(interval);
+      }, []); 
+
     useEffect(() => {
         dispatch(bookedTripRequest())
     }, [dispatch])
+
+
 
     return (
         (viewBookedTrip?.loading) ? <LoadingPage /> :

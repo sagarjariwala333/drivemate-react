@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchTripsRequest } from "../../../redux/viewtrips/actions";
 import { Link } from "react-router-dom";
 import { getAllTrips } from "../../../services/dpservices";
+import LoadingPage from "../../Loading";
 
 function Trips() {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function Trips() {
   return (
     <>
       {res?.loading ? (
-        <>Loading...</>
+        <LoadingPage/>
       ) : (
         <div className="p-5">
           <div className="card-container">
@@ -31,6 +32,7 @@ function Trips() {
                   <p>Source: {x.source}</p>
                   <p>Destination: {x.destination}</p>
                   <p>Distance: {x.distance}</p>
+                  <p>Amount: {x.amount}</p>
                   <p>
                     Date:{" "}
                     {`${new Date(x.date).getDate()}/${

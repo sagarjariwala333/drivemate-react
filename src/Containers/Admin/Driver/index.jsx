@@ -47,6 +47,7 @@ function Drivers() {
         <tbody>
 
           {
+            (res?.data?.map) &&
             res?.data?.map(x => (
               <tr>
                 <td>{x.firstName +" "+x.lastName}</td>
