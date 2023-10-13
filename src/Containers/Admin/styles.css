@@ -1,0 +1,31 @@
+.p-5{
+    min-height:100vh;
+    height: max-content;
+    background-color: #f5f3f3;
+}
+
+p-5 table#Admin{
+    border-collapse: collapse;
+}
+
+table{
+    border:3px solid black;
+}
+
+thead th.th-sm{
+    background-color:#9147ff;
+    color: white;
+
+}
+
+.link-button{
+    color:#ab51e3;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.link-button:hover{
+    text-decoration: underline;
+}
+  
+  
