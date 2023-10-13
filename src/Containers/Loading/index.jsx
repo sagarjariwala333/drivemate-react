@@ -5,7 +5,7 @@ const LoadingPage = () => {
   return (
     <>
       <div className="spinner-container">
-      <Spinner color='blue'/>
+      <Spinner color='#9147ff'/>
     </div>
     </>
   );

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../Header";
 import './style.css';
+import '../styles.css'
+import LoadingPage from "../../Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCustomerRequest } from '../../../redux/viewcustomer/actions';
 import { Link } from "react-router-dom";
@@ -23,9 +25,10 @@ function Drivers() {
 
   return (
     <>
-    {(res?.loading) ? <>Loading...</> :
+   {(res?.loading) ? <LoadingPage /> :
       <div className="p-5">
-      <table id="Admin" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+        <div className="table-responsive">
+      <table id="Admin" class="table table-hover" cellspacing="0" width="100%">
         <thead>
           <tr>
             <th className="th-sm">Name
@@ -34,11 +37,11 @@ function Drivers() {
             <th className="th-sm">Email
 
             </th>
-            <th className="th-sm">Mobile_No
+            <th className="th-sm">Mobile No
 
             </th>
 
-            <th className="th-sm"> Action
+            <th className="th-sm"> Profile
 
             </th>
 
@@ -54,7 +57,7 @@ function Drivers() {
                 <td>{x.email}</td>
                 <td>{x.phoneNo}</td>
                 <td>
-                  <Link className="btn btn-primary" to={"/admin/profile/" + x.id}> View </Link>
+                  <Link className="link-button" to={"/admin/profile/" + x.id}> View </Link>
                 </td>
               </tr>
             ))
@@ -63,6 +66,7 @@ function Drivers() {
         </tbody>
 
       </table>
+      </div>
       </div>}
     </>
   )
