@@ -173,7 +173,7 @@ function CustomerHome() {
           <div className="p-5 container">
             <div className="row">
               <div className="col-12">
-                <div className="card">
+                <div className="cards">
                   <div className="card-body">
                     <form onSubmit={handleSubmit}>
                 <h1 className="h4 mt-3 ">Please Book Trip</h1>

@@ -1,12 +1,21 @@
 .navbar {
     background-color: #ffffff;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    padding: 10px 0;
 }
 a.navbar-brand{
     color:#9147ff;
     font-weight: 600;
     letter-spacing: 3px;
+    font-size: 24px;
+    text-decoration: none;
 }
+
+.navbar-nav {
+    margin-left: auto; /* Push the links to the right */
+}
+
+
 img.prfl {
     width: 30px;
     height: 30px;
@@ -18,6 +27,38 @@ img.prfl {
     cursor: pointer;
 }
 
+a.nav-link {
+    color: #333;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+    margin: 0 15px;
+}
 
+a.nav-link:hover{
+    color: #9147ff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
 
+a.nav-link.active {
+    color: #9147ff !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2) !important;
+    border-bottom: 3px solid #bd9bd4;
+
+}
+
+.nav-link.btn {
+    background-color: #9147ff;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link.btn:hover {
+    background-color: #ab51e3;
+    color: white;
+}
 

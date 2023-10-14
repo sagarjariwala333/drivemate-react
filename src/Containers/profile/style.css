@@ -29,10 +29,11 @@ div.top-level{
     height: 200px;
     object-fit: cover;
     border-radius: 50%;
+    transition: border-radius 0.3s ease;
 }
 
 .profile-info {
-   display: flex;
+    display: flex;
     align-items: center;
     width: 600px;
     justify-content: space-around;
@@ -72,4 +73,7 @@ div.top-level{
     outline: none;
 }
 
-/* Add more styles as needed */
+
+.profile-img:hover {
+    border-radius: 0;
+}

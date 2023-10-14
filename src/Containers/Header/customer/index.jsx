@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { signout } from "../../../services/authservice";
 import '../style.css';
 import { useSelector } from "react-redux";
@@ -14,6 +14,7 @@ function CustomerHeader() {
     const [profileUrl, setProfileUrl] = useState("");
     const dispatch = useDispatch();
     const res = useSelector(state => state.ViewCustomer);
+    const location = useLocation();
 
     useEffect(() => {
         dispatch(fetchCustomerByIdRequest(id));
@@ -38,21 +39,20 @@ function CustomerHeader() {
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item">
-                            <Link className="nav-link" aria-current="page" to="/customer/">Home</Link>
+                            <Link className={`nav-link ${location.pathname === '/customer/' ? 'active' : ''}`} to="/customer/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/customer/trips">Trips</Link>
+                            <Link className={`nav-link ${location.pathname === '/customer/trips' ? 'active' : ''}`} to="/customer/trips">Trips</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/customer/profile">Profile</Link>
+                            <Link className={`nav-link ${location.pathname === '/customer/profile' ? 'active' : ''}`} to="/customer/profile">Profile</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/customer/viewbookedtrips">Booked Trips</Link>
+                            <Link className={`nav-link ${location.pathname === '/customer/viewbookedtrips' ? 'active' : ''}`} to="/customer/viewbookedtrips">Booked Trips</Link>
                         </li>
                         <li className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src={profileUrl || img} alt="img" className="prfl" />
-
+                                <img src={profileUrl || img} alt="img" className="prfl" />
                             </a>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>

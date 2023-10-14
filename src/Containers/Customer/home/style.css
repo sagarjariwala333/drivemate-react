@@ -1,14 +1,33 @@
-div.p-5.container{
+div.p-5.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   min-width: 214vh;
+  min-height: 100vh;
 }
 
-div.card{
+@media (max-width: 768px) {
+  div.p-5.container {
+    min-width: 100%;
+  }
+}
+input.form-control:hover {
+  border-color: #9147ff;
+}
+div.cards{
   width: 1300px;
 }
 
-input.form-control{
+input.form-control {
   height: 50px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 
 div.row.first-row{
   display: flex;
@@ -17,17 +36,18 @@ div.row.first-row{
 }
 
 
-Button.btn.purplle-button {
+button.btn.purplle-button{
   background-color: #9147ff;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 15px 30px;
   border-radius: 5px;
   font-weight: 700;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-Button.btn.purplle-button:hover {
+button.btn.purplle-button:hover {
   background-color: #ab51e3;
 }
 

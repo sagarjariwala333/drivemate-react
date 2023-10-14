@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import Header from "../../Header";
-import "../styles.css";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTripsRequest } from "../../../redux/viewtrips/actions";

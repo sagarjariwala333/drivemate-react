@@ -1,14 +1,15 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { signout } from "../../../services/authservice";
-import '../style.css'; 
+import '../style.css';
 
 function AdminHeader() {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const logout = () => {
         signout(navigate);
-    }
+    };
 
     return (
         <>
@@ -19,18 +20,18 @@ function AdminHeader() {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNavDropdown">
-                        <ul className="navbar-nav ms-auto">
+                        <ul className="navbar-nav">
                             <li className="nav-item">
-                                <Link className="nav-link" to="/admin/customers">Customers</Link>
+                                <Link className={`nav-link ${location.pathname === '/admin/customers' ? 'active' : ''}`} to="/admin/customers">Customers</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/admin/drivers">Drivers</Link>
+                                <Link className={`nav-link ${location.pathname === '/admin/drivers' ? 'active' : ''}`} to="/admin/drivers">Drivers</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/admin/trips">Trips</Link>
+                                <Link className={`nav-link ${location.pathname === '/admin/trips' ? 'active' : ''}`} to="/admin/trips">Trips</Link>
                             </li>
                             <li className="nav-item">
-                                <button className="nav-link btn btn-link" onClick={logout}>Logout</button>
+                                <button className="nav-link btn" onClick={logout}>Logout</button>
                             </li>
                         </ul>
                     </div>
