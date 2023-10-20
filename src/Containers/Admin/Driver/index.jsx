@@ -18,7 +18,11 @@ function Drivers() {
 
   const res = useSelector(state => state.ViewDriver);
 
+  useEffect(() => {
+    // Call the API when the component is mounted
 
+    handleApplyFilters();
+  }, []);
   useEffect(() => {
     if (applyFilters) {
       const requestData = {

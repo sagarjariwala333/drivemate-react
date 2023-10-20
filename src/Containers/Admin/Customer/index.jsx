@@ -18,7 +18,10 @@ function Customer() {
 
   const res = useSelector(state => state.ViewCustomer);
 
-
+  useEffect(() => {
+    // Call the API when the component is mounted
+    handleApplyFilters();
+  }, []); // Empty dependency array ensures this effect runs only once after the initial render
   useEffect(() => {
     if (applyFilters) {
       const requestData = {
