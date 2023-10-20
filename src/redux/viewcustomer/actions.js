@@ -2,12 +2,13 @@ import { FETCH_CUSTOMERS_FAILURE, FETCH_CUSTOMERS_RESQUEST, FETCH_CUSTOMERS_SUCC
 FETCH_CUSTOMERSBYID_RESQUEST, FETCH_CUSTOMERSBYID_SUCCESS, FETCH_CUSTOMERSBYID_FAILURE
 } from './types';
 
-export const fetchCustomerRequest=(data)=>{
+export const fetchCustomerRequest = (data) => {
     return {
         type: FETCH_CUSTOMERS_RESQUEST,
         data
-    }
-}
+    };
+};
+
 
 export const fetchCustomerSuccess=(data)=>{
     return {

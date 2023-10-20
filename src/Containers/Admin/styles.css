@@ -27,5 +27,45 @@ thead th.th-sm{
 .link-button:hover{
     text-decoration: underline;
 }
-  
-  
+
+.filtering-div {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 3px solid lightgrey;
+}
+
+.filtering-div label,.form-check-label {
+    font-weight: bold;
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.filtering-div input[type="text"],
+.filtering-div select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 2px solid #dcdcdc;
+    border-radius: 4px;
+}
+
+.filtering-div button {
+    background-color: #9147ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.filtering-div button:hover {
+    background-color: #ab51e3;
+}
+
+
+.form-switch .form-check-input:checked {
+    background-color:  #9147ff;
+
+}
