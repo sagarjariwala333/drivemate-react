@@ -144,6 +144,15 @@ const Routing = () => {
               </>
             }
           />
+            <Route
+                path="/admin/home"
+                element={
+                    <>
+                        <AdminHeader />
+                        <AdminHome />
+                    </>
+                }
+            />
           <Route
             path="/admin/customers"
             element={

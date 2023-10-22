@@ -22,6 +22,9 @@ function AdminHeader() {
                     <div className="collapse navbar-collapse" id="navbarNavDropdown">
                         <ul className="navbar-nav">
                             <li className="nav-item">
+                                <Link className={`nav-link ${location.pathname === '/admin/home' ? 'active' : ''}`} to="/admin/home">Home</Link>
+                            </li>
+                            <li className="nav-item">
                                 <Link className={`nav-link ${location.pathname === '/admin/customers' ? 'active' : ''}`} to="/admin/customers">Customers</Link>
                             </li>
                             <li className="nav-item">
