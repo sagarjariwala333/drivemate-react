@@ -31,7 +31,7 @@ const StartTrip = () => {
 
   const handleSubmit = (e) => {
     //e.prevetDefault();
-    (dataFromState.otp === state.otp) ? dispatch(startTripRequest({id:dataFromState.id})) : toast.error("Wrong OTP");
+    dispatch(startTripRequest({id:dataFromState.id})) ;
     console.log("Submit", state);
   }
 
@@ -69,28 +69,19 @@ const StartTrip = () => {
             <input type="text" value={"Rs." + dataFromState.amount} name="password" className="form-control" id="floatingPassword" placeholder="Password"/>
             <label htmlFor="floatingPassword">Amount</label>
           </div>
-          <div className="form-floating">
-            <input type="text" value={dataFromState.otp} name="password" className="form-control" id="floatingPassword" placeholder="Password" />
-            <label htmlFor="floatingPassword">OTP</label>
-          </div>
+          
           <div className="form-floating">
             <input type="text" value={dataFromState.distance} name="password" className="form-control" id="floatingPassword" placeholder="Password" />
             <label htmlFor="floatingPassword">Distance</label>
           </div>
-          <div className="form-floating">
-            <input type="text" value={dataFromState.expTime} name="password" className="form-control" id="floatingPassword" placeholder="Password" />
-            <label htmlFor="floatingPassword">Expected Time</label>
-          </div>
+        
           <div className="form-floating">
             <input type="text" value={dataFromState.mobile.mobile} name="password" className="form-control" id="floatingPassword" placeholder="Password" />
             <label htmlFor="floatingPassword">Mobile No</label>
           </div>
 
           <form>
-            <div className="form-floating">
-              <input onChange={handleChange} type="text" name="password" className="form-control" id="floatingPassword" placeholder="Password" />
-              <label htmlFor="floatingPassword">OTP</label>
-            </div>
+            
 
             <button onClick={handleSubmit} className="btn btn-primary w-100 py-2" type="button">Start Trip</button>
             <button onClick={handleEndTrip} className="btn btn-danger mt-2 w-100 py-2" type="button">End Trip</button>

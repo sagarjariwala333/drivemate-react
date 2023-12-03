@@ -3,6 +3,9 @@ import axios from "axios";
 import '../styles.css';
 import LoadingPage from "../../Loading";
 import {getToken, getToken1} from "../../../services/authservice";
+import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import BasicDocument from "./document";
+import { Link } from "react-router-dom";
 
 const AdminHome =  () => {
     const token1 =  getToken1()
@@ -47,6 +50,8 @@ const AdminHome =  () => {
 
     const totalIncome = driversData.reduce((sum, driver) => sum + parseFloat(calculateIncome(driver.distance)), 0);
 
+    const redirectstr = "/admin/rederpdf/" + selectedDate + "T00:00:00.000Z"
+
     return (
         <>
 
@@ -65,7 +70,19 @@ const AdminHome =  () => {
                     />
                     <span className="summary-text5">Total Income: ₹{totalIncome}</span>
                     </div>
+
+                    <Link to={redirectstr} target="_blank">Print</Link>
+
+
+
                     <div className="table-responsive">
+                       
+                       {
+                        driversData?.length === 0 && 
+                        <p>No Trips on this date</p>
+                       }
+
+                        {driversData?.length > 0 &&
                         <table id="Admin" className="table table-hover" cellSpacing="0" width="100%">
                             <thead>
                             <tr>
@@ -89,7 +106,7 @@ const AdminHome =  () => {
                                 </tr>
                             ))}
                             </tbody>
-                        </table>
+                        </table>}
                     </div>
                 </div>
             )}
