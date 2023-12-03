@@ -10,7 +10,7 @@ import { requestDistance } from "../../../redux/distance/actions";
 import { insertTripRequest } from "../../../redux/inserttrip/actions";
 import axios from 'axios';
 import BingMap from "./BingMap";
-
+import { toast } from "react-toastify";
 
 function CustomerHome() {
   const dispatch = useDispatch();
@@ -73,10 +73,22 @@ function CustomerHome() {
       }
     });
   }
-
+  const [disabled, setdisabled] = useState({
+    disabled: true
+  });
   const handleCalculation = async (e) => {
     e.preventDefault();
+    if(formData.source?.length < 1 || formData.destination?.length < 1){
+      toast.warning("Enter appropriate source and destination")
+    }
+    else if(formData.datetime?.toString().length <1){
+      toast.warning("Please Enter Date and Time of Journey")
+    }
+    else{
     dispatch(requestDistance(formData));
+    setdisabled({disabled:false})
+
+    }
   };
 
   const [destinationCoordinates, setDestinationCoordinates] = useState({
@@ -167,10 +179,10 @@ console.log(getDestinationCoordinates)
     }
   }
   
-
+  const [locationstate,setlocationstate]  = useState({loading:false})
   const getLocation = async (e) => {
     e.preventDefault();
-
+    setlocationstate({loading:true})
     try {
       const result = await getLocationAddress();
       console.log("Formatted Address:", result);
@@ -178,6 +190,7 @@ console.log(getDestinationCoordinates)
     } catch (error) {
       console.error("Error getting address:", error);
     }
+    setlocationstate({loading:false})
   };
 
   const [state, setState] = useState({
@@ -216,7 +229,7 @@ console.log(getDestinationCoordinates)
   return (
     <>
       {currentLocation.loading ||
-      reverseGeoLocation.loading ||
+      reverseGeoLocation.loading || locationstate.loading ||
       distanceReducer.loading ||
       insertTrip.loading ? (
         <LoadingPage />
@@ -244,7 +257,7 @@ console.log(getDestinationCoordinates)
                               type="text"
                               className="form-control"
                               id="source"
-                              value={formData.source}
+                              value={locationstate.loading ? "loading": formData?.source}
                               placeholder="source address"
                           />
                         </div>
@@ -282,7 +295,7 @@ console.log(getDestinationCoordinates)
                       </div>
                       </div>
                      
-              {isMapVisible &&  <div className="col-3 border border-primary  border-2 rounded"> <BingMap apiKey={BING_MAPS_API_KEY} sourceCoordinates={sourceCoordinates} />
+              {isMapVisible &&  <div className="col-3 border border-purple  border-2 rounded"> <BingMap apiKey={BING_MAPS_API_KEY} sourceCoordinates={sourceCoordinates} />
               </div>}
               
               </div>
@@ -358,9 +371,13 @@ console.log(getDestinationCoordinates)
                       </div>
                       <div className="submit-row row-mt-3">
                         <div className="">
-                          <button className="btn purple-button" type="submit">
+                          {disabled.disabled ?
+                          
+                           <button className="btn purple-button" type="submit" disabled> 
                             Book
-                          </button>
+                          </button> : <button className="btn purple-button" type="submit" > 
+                            Book
+                          </button>}
                         </div>
                       </div>
                     </form>

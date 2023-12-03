@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { signout } from "../../../services/authservice";
 import '../style.css';
 import { useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import { fetchCustomerByIdRequest } from "../../../redux/viewcustomer/actions";
 
 function DriverHeader() {
     const navigate = useNavigate();
+    const location = useLocation();
     const { id } = useParams();
     const [profileUrl, setProfileUrl] = useState("");
     const dispatch = useDispatch();
@@ -38,21 +39,18 @@ function DriverHeader() {
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item">
-                            <Link className="nav-link" aria-current="page" to="/driver/">Home</Link>
+                            <Link className={`nav-link ${location.pathname === '/driver/' ? 'active' : ''}`} to="/driver/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/driver/trips">Trips</Link>
+                            <Link className={`nav-link ${location.pathname === '/driver/trips' ? 'active' : ''}`} to="/driver/trips">Trips</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/driver/profile">Profile</Link>
+                            <Link className={`nav-link ${location.pathname === '/driver/profile' ? 'active' : ''}`} to="/driver/profile">Profile</Link>
                         </li>
-                        {/* <li className="nav-item">
-                            <Link className="nav-link" to="/driver/update">Update</Link>
-                        </li> */}
+                        {/* Add more links with the same pattern */}
                         <li className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src={profileUrl || img} alt="img" className="prfl" />
-
+                                <img src={profileUrl || img} alt="img" className="prfl" />
                             </a>
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a className="dropdown-item" onClick={handleLogout}>Logout</a></li>
