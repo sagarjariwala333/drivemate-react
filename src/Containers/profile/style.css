@@ -1,5 +1,79 @@
-.mt-5{
+div.top-level{
     min-height:100vh;
+    min-width: 214vh;
     height: max-content;
     background-color: #f5f3f3;
+}
+
+/* Profile Container */
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+/* Profile Image */
+
+.profile-image{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+    font-size: large;
+}
+
+.profile-img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: border-radius 0.3s ease;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    width: 600px;
+    justify-content: space-around;
+
+}
+/* Personal Information Section */
+.personal-info {
+    min-width: 400px;
+    width: 600px;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.input-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    width: 240px;
+    border-radius: 5px;
+    outline: none;
+}
+
+
+.profile-img:hover {
+    border-radius: 0;
 }

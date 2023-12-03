@@ -31,6 +31,7 @@ const Routing = () => {
     <>
       <BrowserRouter>
         <Routes>
+            <Route path="/" Component={Login} />
           <Route path="/login" Component={Login} />
           <Route path="/signup" Component={Signup} />
 
@@ -144,6 +145,15 @@ const Routing = () => {
               </>
             }
           />
+            <Route
+                path="/admin/home"
+                element={
+                    <>
+                        <AdminHeader />
+                        <AdminHome />
+                    </>
+                }
+            />
           <Route
             path="/admin/customers"
             element={

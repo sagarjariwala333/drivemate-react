@@ -30,3 +30,9 @@ export const getToken = async () => {
     var obj = await JSON.parse(str);
     return obj.token;
 }
+
+export const getToken1 = () => {
+    var str = localStorage.getItem("profile");
+    var obj = JSON.parse(str);
+    return obj.token;
+}

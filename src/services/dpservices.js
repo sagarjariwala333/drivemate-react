@@ -210,7 +210,7 @@ export const getAllUsers= async (role)=>{
     const url = API_ENDPOINT + "Admin/GetAllUsers";
     try
     {
-        const res = axios.post(url,{role},{
+        const res = axios.post(url,role,{
             headers:{
                 Authorization: `Bearer ${token}`
             }

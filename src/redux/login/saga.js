@@ -43,9 +43,20 @@ function* doLogin(action) {
           }
           
         }
-        else
+        else if(profile.role === 'D')
         {
-          yield call(toast,"Already Logged In");
+          yield call(navigate,"/driver");
+          yield call(toast.success,"Login successful");
+        }
+        else if(profile.role === 'C' && profile.firstName === "Admin")
+        {
+          yield call(navigate,"/admin/");
+          yield call(toast.success,"Login successful");
+        }
+        else if(profile.role === 'c')
+        {
+          yield call(navigate,"/customer");
+          yield call(toast.success,"Login successful");
         }
         
       }

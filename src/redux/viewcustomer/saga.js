@@ -5,12 +5,15 @@ import { getAllUsers, getUserById } from "../../services/dpservices";
 import { toast } from "react-toastify";
 
 function* getCustomers(action) {
-    let {data} = action;
-
-    console.log("saga", data);
 
     //console.warn("Saga");
-    const res = yield call(getAllUsers, data);
+    const { data: { role, queryOn, filterQuery, sortBy, isAscending } } = action;
+
+   console.log(action);
+
+    // Call your API function with these parameters
+    const res = yield call(getAllUsers, { role, filterOn : queryOn, filterQuery, sortBy, isAscending });
+    console.log(res);
 
     //toast.success("Data fetched successfully");
 

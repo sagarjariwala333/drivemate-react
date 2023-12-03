@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getCustomStyles } from "./style";
+import "./style.css"
 import $ from "jquery";
 import { useSelector, useDispatch } from "react-redux";
 import { reversegeoCodeRequest } from "../../../redux/reversegeolocation/actions";
@@ -8,12 +8,16 @@ import LoadingPage from "../../Loading";
 import { fetchCurrentLocation } from "../../../redux/currentposition/actions";
 import { requestDistance } from "../../../redux/distance/actions";
 import { insertTripRequest } from "../../../redux/inserttrip/actions";
+import axios from 'axios';
+import BingMap from "./BingMap";
+
 
 function CustomerHome() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const BING_MAPS_API_KEY = "Aqy1ZGH8w5qxacwXGoWyCJzAdq9RDUlzX8HGBCeXcBIvlGV5JwdzLla1gQPpeYkJ";
 
-
+  const [isMapVisible, setIsMapVisible] = useState(false);
   const { currentLocation, reverseGeoLocation, distanceReducer, insertTrip } = useSelector(
     (state) => ({
       currentLocation: state.CurrentLocation,
@@ -22,6 +26,11 @@ function CustomerHome() {
       insertTrip: state.InsertTrip
     })
   );
+  const [sourceCoordinates, setSourceCoordinates] = useState({
+    latitude: 22.3115,
+    longitude:  73.1900,
+  });
+  
 
   const [address, setAddress] = useState("");
 
@@ -70,21 +79,56 @@ function CustomerHome() {
     dispatch(requestDistance(formData));
   };
 
-  const handleFormSubmit = (e) => {
+  const [destinationCoordinates, setDestinationCoordinates] = useState({
+    latitude: null,
+    longitude: null,
+  });
+
+
+  // Function to get destination coordinates based on address
+  async function getDestinationCoordinates() {
+    try {
+      const response = await axios.get(
+        `https://your-geocoding-api-endpoint?address=${formData.destination}&key=YOUR_API_KEY`
+      );
+
+      const { lat, lng } = response.data.results[0].geometry.location;
+      setDestinationCoordinates({ latitude: lat, longitude: lng });
+      return { lat, lng };
+    } catch (error) {
+      console.error("Error getting destination coordinates:", error);
+      throw error;
+    }
+  }
+console.log(getDestinationCoordinates)
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted", formData);
-    dispatch(insertTripRequest(formData,navigate));
+
+    // Get destination coordinates before submitting the form
+    try {
+      const destinationCoords = await getDestinationCoordinates();
+      // Now you can use destinationCoords.latitude and destinationCoords.longitude in your form submission logic
+
+      // Rest of your form submission logic
+      console.log("Form submitted", formData);
+      dispatch(insertTripRequest(formData, navigate));
+    } catch (error) {
+      console.error("Error processing form submission:", error);
+    }
   };
+  
 
   useEffect(() => {
     dispatch(fetchCurrentLocation());
   }, []);
 
   useEffect(() => {
-    setFormData({
-      ...formData,
-      source: reverseGeoLocation?.data?.formatted_address,
-    });
+    if (reverseGeoLocation?.data?.formatted_address) {
+      setFormData(prevState => ({
+        ...prevState,
+        source: reverseGeoLocation.data.formatted_address
+      }));
+    }
   }, [reverseGeoLocation?.data?.formatted_address]);
 
   useEffect(() => {
@@ -98,34 +142,42 @@ function CustomerHome() {
     console.log(distance, duration);
   }, [distanceReducer]);
 
-  function getLocationAddress() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        dispatch(
-          reversegeoCodeRequest({
-            latitude: currentLocation.data.latitude,
-            longitude: currentLocation.data.longitude,
-          })
-        );
-      } catch (error) {
-        reject(error);
+  async function getLocationAddress() {
+    try {
+      const { latitude, longitude } = currentLocation.data;
+      setSourceCoordinates({ latitude, longitude });
+      const response = await axios.get(
+        `https://dev.virtualearth.net/REST/v1/LocationRecog/${latitude},${longitude}?top=1&key=${BING_MAPS_API_KEY}`
+      );
+  
+      const data = response.data;
+      if (data?.resourceSets?.[0]?.resources?.[0]?.businessesAtLocation?.length > 0) {
+        const formattedAddress = data.resourceSets[0].resources[0].businessesAtLocation[0].businessAddress.formattedAddress;
+        setAddress(formattedAddress);
+        setFormData(prevState => ({
+          ...prevState,
+          source: formattedAddress
+        }));
+        return formattedAddress;
+      } else {
+        throw new Error("Address not found");
       }
-    });
+    } catch (error) {
+      throw new Error("Error getting address: " + error.message);
+    }
   }
+  
 
   const getLocation = async (e) => {
     e.preventDefault();
 
-    await getLocationAddress()
-      .then((result) => {
-        if (reverseGeoLocation && reverseGeoLocation.data.result[0]) {
-          setAddress(reverseGeoLocation?.data?.formatted_address || "");
-          //setAddress(reverseGeoLocation.data.result[0].formatted_address);
-        }
-      })
-      .catch((error) => {
-        console.error(error); // Handle error
-      });
+    try {
+      const result = await getLocationAddress();
+      console.log("Formatted Address:", result);
+      setIsMapVisible(true); // Set the flag to make the map visible
+    } catch (error) {
+      console.error("Error getting address:", error);
+    }
   };
 
   const [state, setState] = useState({
@@ -149,7 +201,6 @@ function CustomerHome() {
     e.preventDefault();
   };
 
-  const customStyles = getCustomStyles();
 
   const handleChangeImage = (e) => {
     setState({ [e.target.name]: URL.createObjectURL(e.target.files[0]) });
@@ -166,226 +217,160 @@ function CustomerHome() {
     <>
       {currentLocation.loading ||
       reverseGeoLocation.loading ||
-      distanceReducer.loading || 
+      distanceReducer.loading ||
       insertTrip.loading ? (
         <LoadingPage />
       ) : (
         <>
-          <style>{customStyles}</style>
-          <div className="center-horizontal">
-            <div className="container">
-              <main className="form-signin w-100">
-                <form onSubmit={handleSubmit}>
-                  <h1 className="h3 mb-3 fw-normal">Please Book Trip</h1>
-
-                  <div className="container">
-                    <div className="row" style={{ width: "700px" }}>
-                      <div className="col-4">
-                        <div className="form-floating m-2">
+          <div className="p-5 container">
+            <div className="row">
+              <div className="col-12">
+                <div className="cards">
+                  <div className="card-body">
+                    <form onSubmit={handleSubmit}>
+                <h1 className="h4 mt-3 ">Please Book Trip</h1>
+                      <div className="row">
+                        <div className="col-12 col-md-8">
+                      <div className="row first-row mt-5">
+                        <div className="col-4">
+                        <button className="btn purplle-button" onClick={getLocation}>
+          Get Location
+        </button>
+                        </div>
+                        <div className="col-8">
+                          {/*<label htmlFor="source">Source</label>*/}
                           <input
-                            disabled="true"
-                            type="text"
-                            className="form-control transparent-input"
-                            id="floatingInput"
-                            placeholder="name@example.com"
+
+                              type="text"
+                              className="form-control"
+                              id="source"
+                              value={formData.source}
+                              placeholder="source address"
                           />
-                          <label htmlFor="floatingInput">Source</label>
                         </div>
                       </div>
 
-                      <div className="col-3">
-                        <div className="form-floating m-2">
-                          <button className="btn btn-primary" onClick={getLocation}>Get Location</button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row" style={{ width: "700px" }}>
-                      <div className="col-4">
-                        <div className="form-floating m-2">
+                      <div className="row mt-3 ">
+                        <div className="col-12">
+                          <label htmlFor="destination">Destination</label>
                           <input
-                            disabled="true"
-                            type="text"
-                            className="form-control transparent-input"
-                            id="floatingInput"
-                            placeholder="name@example.com"
+                              type="text"
+                              name="destination"
+                              onChange={handleFormChange}
+                              className="form-control"
+                              id="destination"
+                              placeholder="Enter destination address"
+                              value={formData.destination}
                           />
-                          <label htmlFor="floatingInput">Source Address</label>
                         </div>
+                        
                       </div>
 
-                      <div className="col">
-                        <div className="form-floating m-2">
+                      <div className="row mt-3">
+                        <div className="col-12">
+                          <label htmlFor="datetime">Date and Time</label>
                           <input
-                            type="text"
-                            name="source"
-                            value={
-                              reverseGeoLocation?.data?.formatted_address ||
-                              "No Address"
-                            }
-                            className="form-control"
-                            id="floatingInput"
-                            placeholder="name@example.com"
+                              type="datetime-local"
+                              name="datetime"
+                              value={formData.datetime}
+                              onChange={handleFormChange}
+                              className="form-control"
+                              id="datetime"
+                              placeholder="Select date and time"
                           />
-                          <label htmlFor="floatingInput">Source Address</label>
                         </div>
                       </div>
-                    </div>
+                      </div>
+                     
+              {isMapVisible &&  <div className="col-3 border border-primary  border-2 rounded"> <BingMap apiKey={BING_MAPS_API_KEY} sourceCoordinates={sourceCoordinates} />
+              </div>}
+              
+              </div>
 
-                    <div className="row" style={{ width: "700px" }}>
-                      <div className="col-4">
-                        <div className="form-floating m-2">
+                      <div className="row mt-3">
+                        <div className="col-4">
+                          <label htmlFor="distance">Distance</label>
                           <input
-                            disabled="true"
-                            type="text"
-                            name="FirstName"
-                            onChange={handleChange}
-                            className="form-control transparent-input"
-                            id="floatingInput"
-                            placeholder="name@example.com"
+                              disabled="true"
+                              type="text"
+                              name="distance"
+                              onChange={handleFormChange}
+                              className="form-control"
+                              id="distance"
+                              placeholder="Distance"
+                              value={
+                                distanceReducer &&
+                                distanceReducer.data &&
+                                distanceReducer.data.distance !== undefined
+                                    ? distanceReducer.data.distance?.text
+                                    : "None"
+                              }
                           />
-                          <label htmlFor="floatingInput">Destination</label>
                         </div>
-                      </div>
 
-                      <div className="col-8">
-                        <div className="form-floating m-2">
+                        <div className="col-4">
+                          <label htmlFor="duration">Duration</label>
                           <input
-                            type="text"
-                            name="destination"
-                            onChange={handleFormChange}
-                            className="form-control"
-                            value={formData.destination}
-                            id="floatingInput"
-                            placeholder="name@example.com"
+                              disabled="true"
+                              type="text"
+                              name="duration"
+                              onChange={handleFormChange}
+                              className="form-control"
+                              id="duration"
+                              placeholder="Duration"
+                              value={
+                                distanceReducer &&
+                                distanceReducer.data &&
+                                distanceReducer.data.duration !== undefined
+                                    ? distanceReducer.data.duration?.text
+                                    : "None"
+                              }
                           />
-                          <label htmlFor="floatingInput">Address</label>
                         </div>
-                      </div>
-                    </div>
 
-                    <div className="row" style={{ width: "700px" }}>
-                      <div className="col">
-                        <div className="form-floating m-2">
+                        <div className="col-4">
+                          <label htmlFor="amount">Amount</label>
                           <input
-                            disabled="true"
-                            type="text"
-                            name="FirstName"
-                            onChange={handleChange}
-                            className="form-control transparent-input"
-                            id="floatingInput"
-                            placeholder="name@example.com"
+                              disabled="true"
+                              type="text"
+                              name="amount"
+                              onChange={handleFormChange}
+                              className="form-control"
+                              id="amount"
+                              placeholder="Amount"
+                              value={
+                                distanceReducer &&
+                                distanceReducer.data &&
+                                distanceReducer.data.distance !== undefined
+                                    ? Math.abs(Math.ceil(distanceReducer.data.distance?.value * 0.015))
+                                    : "None"
+                              }
                           />
-                          <label htmlFor="floatingInput">Date and Time</label>
                         </div>
                       </div>
 
-                      <div className="col-8">
-                        <div className="form-floating m-2">
-                          <input
-                            type="datetime-local"
-                            name="datetime"
-                            value={formData.datetime}
-                            onChange={handleFormChange}
-                            className="form-control"
-                            id="floatingInput"
-                            placeholder="name@example.com"
-                          />
-                          <label htmlFor="floatingInput">Date</label>
+                      <div className="row mt-3">
+                        <div className="col-12">
+                          <button className="btn purple-button" onClick={handleCalculation}>
+                            Calculate
+                          </button>
                         </div>
                       </div>
-                    </div>
-
-                    <div className="row" style={{ width: "700px" }}>
-                      <div className="col-4">
-                        <div className="form-floating m-2">
-                          <input
-                            type="text"
-                            name="distance"
-                            onChange={handleFormChange}
-                            disabled="true"
-                            className="form-control"
-                            id="floatingInput"
-                            value={
-                              distanceReducer &&
-                              distanceReducer.data &&
-                              distanceReducer.data.distance !== undefined
-                                ? distanceReducer.data.distance?.text
-                                : "None"
-                            }
-                            placeholder="name@example.com"
-                          />
-                          <label htmlFor="floatingInput">Distance</label>
+                      <div className="submit-row row-mt-3">
+                        <div className="">
+                          <button className="btn purple-button" type="submit">
+                            Book
+                          </button>
                         </div>
                       </div>
-
-                      <div className="col-4">
-                        <div className="form-floating m-2">
-                          <input
-                            type="text"
-                            disabled="true"
-                            name="duration"
-                            onChange={handleFormChange}
-                            className="form-control"
-                            id="floatingInput"
-                            value={
-                              distanceReducer &&
-                              distanceReducer.data &&
-                              distanceReducer.data.duration !== undefined
-                                ? distanceReducer.data.duration?.text
-                                : "None"
-                            }
-                            placeholder="name@example.com"
-                          />
-                          <label htmlFor="floatingInput">Duration</label>
-                        </div>
-                      </div>
-
-                      <div className="col-4">
-                        <div className="form-floating m-2">
-                          <input
-                            type="text"
-                            name="amount"
-                            disabled="true"
-                            onChange={handleFormChange}
-                            className="form-control"
-                            id="floatingInput"
-                            value={
-                              distanceReducer &&
-                              distanceReducer.data &&
-                              distanceReducer.data.distance !== undefined
-                                ? Math.abs(Math.ceil(distanceReducer.data.distance?.value * 0.015))
-                                : "None"
-                            }
-                            placeholder="name@example.com"
-                          />
-                          <label htmlFor="floatingInput">Amount</label>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row" style={{ width: "700px" }}>
-                      <div className="col-6">
-                        <button className="btn btn-primary" onClick={handleCalculation} >
-                          Calculate
-                        </button>
-                      </div>
-
-                      <div className="col-6">
-                        <button
-                          onClick={handleFormSubmit}
-                          className="btn btn-primary w-100 py-2 ms-3 mt-3"
-                          type="submit"
-                        >
-                          Book
-                        </button>
-                      </div>
-                    </div>
+                    </form>
                   </div>
-                </form>
-              </main>
+                </div>
+              </div>
+              
             </div>
           </div>
+
         </>
       )}
     </>
