@@ -22,6 +22,7 @@ import DefaultError from "../Containers/Error/Default";
 import FindingDrivers from "../Containers/FindingDrivers";
 import StartTrip from "../Containers/Driver/starttrip";
 import BookedTrips from "../Containers/Customer/bookedtrips";
+import RenderPdf from "../Containers/Admin/Home/RederPdf";
 
 const Routing = () => {
 
@@ -34,6 +35,7 @@ const Routing = () => {
             <Route path="/" Component={Login} />
           <Route path="/login" Component={Login} />
           <Route path="/signup" Component={Signup} />
+          <Route path="/admin/rederpdf/:date" Component={RenderPdf} />
 
           <Route path="/customer/"
             element=
