@@ -8,12 +8,16 @@ import LoadingPage from "../../Loading";
 import { fetchCurrentLocation } from "../../../redux/currentposition/actions";
 import { requestDistance } from "../../../redux/distance/actions";
 import { insertTripRequest } from "../../../redux/inserttrip/actions";
+import axios from 'axios';
+import BingMap from "./BingMap";
+
 
 function CustomerHome() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const BING_MAPS_API_KEY = "Aqy1ZGH8w5qxacwXGoWyCJzAdq9RDUlzX8HGBCeXcBIvlGV5JwdzLla1gQPpeYkJ";
 
-
+  const [isMapVisible, setIsMapVisible] = useState(false);
   const { currentLocation, reverseGeoLocation, distanceReducer, insertTrip } = useSelector(
     (state) => ({
       currentLocation: state.CurrentLocation,
@@ -22,6 +26,11 @@ function CustomerHome() {
       insertTrip: state.InsertTrip
     })
   );
+  const [sourceCoordinates, setSourceCoordinates] = useState({
+    latitude: 22.3115,
+    longitude:  73.1900,
+  });
+  
 
   const [address, setAddress] = useState("");
 
@@ -70,21 +79,56 @@ function CustomerHome() {
     dispatch(requestDistance(formData));
   };
 
-  const handleFormSubmit = (e) => {
+  const [destinationCoordinates, setDestinationCoordinates] = useState({
+    latitude: null,
+    longitude: null,
+  });
+
+
+  // Function to get destination coordinates based on address
+  async function getDestinationCoordinates() {
+    try {
+      const response = await axios.get(
+        `https://your-geocoding-api-endpoint?address=${formData.destination}&key=YOUR_API_KEY`
+      );
+
+      const { lat, lng } = response.data.results[0].geometry.location;
+      setDestinationCoordinates({ latitude: lat, longitude: lng });
+      return { lat, lng };
+    } catch (error) {
+      console.error("Error getting destination coordinates:", error);
+      throw error;
+    }
+  }
+console.log(getDestinationCoordinates)
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted", formData);
-    dispatch(insertTripRequest(formData,navigate));
+
+    // Get destination coordinates before submitting the form
+    try {
+      const destinationCoords = await getDestinationCoordinates();
+      // Now you can use destinationCoords.latitude and destinationCoords.longitude in your form submission logic
+
+      // Rest of your form submission logic
+      console.log("Form submitted", formData);
+      dispatch(insertTripRequest(formData, navigate));
+    } catch (error) {
+      console.error("Error processing form submission:", error);
+    }
   };
+  
 
   useEffect(() => {
     dispatch(fetchCurrentLocation());
   }, []);
 
   useEffect(() => {
-    setFormData({
-      ...formData,
-      source: reverseGeoLocation?.data?.formatted_address,
-    });
+    if (reverseGeoLocation?.data?.formatted_address) {
+      setFormData(prevState => ({
+        ...prevState,
+        source: reverseGeoLocation.data.formatted_address
+      }));
+    }
   }, [reverseGeoLocation?.data?.formatted_address]);
 
   useEffect(() => {
@@ -98,34 +142,42 @@ function CustomerHome() {
     console.log(distance, duration);
   }, [distanceReducer]);
 
-  function getLocationAddress() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        dispatch(
-          reversegeoCodeRequest({
-            latitude: currentLocation.data.latitude,
-            longitude: currentLocation.data.longitude,
-          })
-        );
-      } catch (error) {
-        reject(error);
+  async function getLocationAddress() {
+    try {
+      const { latitude, longitude } = currentLocation.data;
+      setSourceCoordinates({ latitude, longitude });
+      const response = await axios.get(
+        `https://dev.virtualearth.net/REST/v1/LocationRecog/${latitude},${longitude}?top=1&key=${BING_MAPS_API_KEY}`
+      );
+  
+      const data = response.data;
+      if (data?.resourceSets?.[0]?.resources?.[0]?.businessesAtLocation?.length > 0) {
+        const formattedAddress = data.resourceSets[0].resources[0].businessesAtLocation[0].businessAddress.formattedAddress;
+        setAddress(formattedAddress);
+        setFormData(prevState => ({
+          ...prevState,
+          source: formattedAddress
+        }));
+        return formattedAddress;
+      } else {
+        throw new Error("Address not found");
       }
-    });
+    } catch (error) {
+      throw new Error("Error getting address: " + error.message);
+    }
   }
+  
 
   const getLocation = async (e) => {
     e.preventDefault();
 
-    await getLocationAddress()
-      .then((result) => {
-        if (reverseGeoLocation && reverseGeoLocation.data.result[0]) {
-          setAddress(reverseGeoLocation?.data?.formatted_address || "");
-          //setAddress(reverseGeoLocation.data.result[0].formatted_address);
-        }
-      })
-      .catch((error) => {
-        console.error(error); // Handle error
-      });
+    try {
+      const result = await getLocationAddress();
+      console.log("Formatted Address:", result);
+      setIsMapVisible(true); // Set the flag to make the map visible
+    } catch (error) {
+      console.error("Error getting address:", error);
+    }
   };
 
   const [state, setState] = useState({
@@ -177,20 +229,22 @@ function CustomerHome() {
                   <div className="card-body">
                     <form onSubmit={handleSubmit}>
                 <h1 className="h4 mt-3 ">Please Book Trip</h1>
-
+                      <div className="row">
+                        <div className="col-12 col-md-8">
                       <div className="row first-row mt-5">
-                        <div className="col-3">
-                          <button className="btn purplle-button w-100" onClick={getLocation}>Get Location</button>
+                        <div className="col-4">
+                        <button className="btn purplle-button" onClick={getLocation}>
+          Get Location
+        </button>
                         </div>
-                        <div className="col-9">
+                        <div className="col-8">
                           {/*<label htmlFor="source">Source</label>*/}
                           <input
 
                               type="text"
                               className="form-control"
                               id="source"
-                              value={
-                                reverseGeoLocation?.data?.formatted_address }
+                              value={formData.source}
                               placeholder="source address"
                           />
                         </div>
@@ -209,6 +263,7 @@ function CustomerHome() {
                               value={formData.destination}
                           />
                         </div>
+                        
                       </div>
 
                       <div className="row mt-3">
@@ -225,6 +280,12 @@ function CustomerHome() {
                           />
                         </div>
                       </div>
+                      </div>
+                     
+              {isMapVisible &&  <div className="col-3 border border-primary  border-2 rounded"> <BingMap apiKey={BING_MAPS_API_KEY} sourceCoordinates={sourceCoordinates} />
+              </div>}
+              
+              </div>
 
                       <div className="row mt-3">
                         <div className="col-4">
@@ -306,6 +367,7 @@ function CustomerHome() {
                   </div>
                 </div>
               </div>
+              
             </div>
           </div>
 

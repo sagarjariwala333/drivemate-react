@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import '../styles.css';
 import LoadingPage from "../../Loading";
+import {getToken, getToken1} from "../../../services/authservice";
 
-const AdminHome = () => {
-    const token = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InZpcmFqamFiZWxpeWExMjNAZ21haWwuY29tIiwiSWQiOiJkZWFlNjk5ZC0zYzNhLTQxOWYtYzJkMy0wOGRiYmIzMTMzZTEiLCJSb2xlIjoiQyIsInVuaXF1ZWlkIjoiMDA0YjY2NDMtYTYwMS00ZTgzLTg0NGMtOGQ0ZmVhZGVjMGMyIiwiZXhwIjoxNjk4MDQ2MTM0LCJpc3MiOiIqIiwiYXVkIjoiKiJ9.xQjiDutigm3NJq7zsrVT2WG7h3MAui5sA8uI9jVsX7Q";
+const AdminHome =  () => {
+    const token1 =  getToken1()
+    const token = "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImFkbWluMTIzQGdtYWlsLmNvbSIsIklkIjoiNmNlNzVlMzUtZmU2MS00NDJjLWMyZDktMDhkYmJiMzEzM2UxIiwiUm9sZSI6IkMiLCJ1bmlxdWVpZCI6IjkxNzYxMGNmLTMzYjAtNGI0My05OTdlLTJiYWFiMmRkNzc4YyIsImV4cCI6MTY5ODIzNjk4MCwiaXNzIjoiKiIsImF1ZCI6IioifQ.OplcthdGHlJnRG-UjeQhGNHqxLO-evG-t4BQqIhLhU8";  
     const config = {
         headers: {
-            Authorization: "Bearer " + token
+            Authorization: "Bearer " + token1
         }
     };
     const report_url = "https://localhost:7094/api/Admin/GetReport";
@@ -17,6 +19,7 @@ const AdminHome = () => {
     const [selectedDate, setSelectedDate] = useState(defaultDate);
     const [driversData, setDriversData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    
 
 
     useEffect(() => {
@@ -39,6 +42,10 @@ const AdminHome = () => {
 
         fetchData();
     }, [selectedDate]); //""" Empty dependency array ensures this effect runs only once after the initial render """
+    const totalTrips = driversData.reduce((sum, driver) => sum + driver.totalTrips, 0);
+    const calculateIncome = (distance) => (distance * 5).toFixed(2);
+
+    const totalIncome = driversData.reduce((sum, driver) => sum + parseFloat(calculateIncome(driver.distance)), 0);
 
     return (
         <>
@@ -46,13 +53,18 @@ const AdminHome = () => {
             {isLoading ? (
                 <LoadingPage />
             ) : (
+
                 <div className="p-5">
+                    <div className="upper-div">
                     <span>Report on :   </span>
+
                     <input
                         type="date"
                         value={selectedDate}
                         onChange={(e) => setSelectedDate(e.target.value)}
                     />
+                    <span className="summary-text5">Total Income: ₹{totalIncome}</span>
+                    </div>
                     <div className="table-responsive">
                         <table id="Admin" className="table table-hover" cellSpacing="0" width="100%">
                             <thead>

@@ -56,3 +56,6 @@ div.submit-row{
   align-items: center;
   justify-content: center;
 }
+.map{
+  border: 2px solid #9147ff;
+}

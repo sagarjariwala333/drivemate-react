@@ -31,6 +31,7 @@ const Routing = () => {
     <>
       <BrowserRouter>
         <Routes>
+            <Route path="/" Component={Login} />
           <Route path="/login" Component={Login} />
           <Route path="/signup" Component={Signup} />
 

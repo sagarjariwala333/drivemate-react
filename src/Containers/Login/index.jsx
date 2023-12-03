@@ -5,10 +5,12 @@ import { loginRequest } from '../../redux/login/actions';
 import { useNavigate } from "react-router-dom";
 import LoadingPage from '../Loading';
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const [state, setState] = useState({
         email: "",
@@ -19,7 +21,15 @@ function Login() {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        dispatch(loginRequest(state, navigate));
+        if (state.email?.length<1 || state.password?.length <1){
+            toast.error("Password and email are mendatory")
+        }
+        else if(!emailPattern.test(state.email)){
+            toast.error("invalid email!")
+        }
+        else{
+            dispatch(loginRequest(state, navigate));
+        }
     }
 
     return (
@@ -32,7 +42,7 @@ function Login() {
                     <form onSubmit={handleFormSubmit}>
 
                         <div className="form-floating mb-3">
-                            <input type="email" name="email" onChange={(e) => setState({ ...state, email: e.target.value })} className="form-control" id="floatingInput" placeholder="name@example.com" />
+                            <input type="text" name="email" onChange={(e) => setState({ ...state, email: e.target.value })} className="form-control" id="floatingInput" placeholder="name@example.com" />
                             <label htmlFor="floatingInput">Email address</label>
                         </div>
 

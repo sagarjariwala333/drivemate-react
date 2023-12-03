@@ -5,6 +5,7 @@ import { signupRequest } from '../../redux/signup/actions';
 import { useNavigate } from "react-router-dom";
 import LoadingPage from '../Loading';
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Signup() {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ function Signup() {
         Email: "",
         PhoneNo: "",
         Password: "",
+        repassword:"",
         Role: '',
         AadharNo: "123",
         LicenceNo: "123",
@@ -26,10 +28,25 @@ function Signup() {
 
     const dispatch = useDispatch();
     const result = useSelector(state => state.Signup);
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(signupRequest(state, navigate));
+        if (!passwordPattern.test(state.Password)) {
+            toast.warning("Password must meet the following criteria:\n" +
+                "- Minimum 8 characters\n" +
+                "- At least one special character\n" +
+                "- At least one lowercase letter\n" +
+                "- At least one uppercase letter\n" +
+                "- At least one digit");
+        }
+        else if(state.password !== state.repassword){
+            toast.warning("password's are not same")
+        }
+        else{
+            dispatch(signupRequest(state, navigate));    
+        }
     }
 
     const handleChangeImage = (e) => {
@@ -55,27 +72,29 @@ function Signup() {
              <main className="form-signup form-container">
              <h3 className="h3">Register</h3>
                         <form onSubmit={handleSubmit}>
+                            <div className="form-group">
                                 <div className="picture mb-3">
                                     <label htmlFor="profilepic" className="form-label">Profile Picture</label>
                                     <input type="file" id="profilepic" onChange={handleBinaryChange} name="profilepic" className="form-control" accept="image/*" />
                                 </div>
                                 <div className="row mb-3">
                                     <div className="col">
-                                        <input type="text" name="FirstName" onChange={handleChange} className="form-control" placeholder="First Name" />
+                                        
+                                        <input type="text" name="FirstName" onChange={handleChange} className="form-control" placeholder="First Name" required/>
                                     </div>
                                     <div className="col">
-                                        <input type="text" name="LastName" onChange={handleChange} className="form-control" placeholder="Last Name" />
+                                        <input type="text" name="LastName" onChange={handleChange} className="form-control" placeholder="Last Name" required/>
                                     </div>
                                 </div>
 
                                 <div className="mb-3">
-                                    <input type="email" name="Email" onChange={handleChange} className="form-control" placeholder="Email address" />
+                                    <input type="email" name="Email" onChange={handleChange} className="form-control" placeholder="Email address" required/>
                                 </div>
                                 <div className="mb-3">
-                                    <input type="password" name="Password" onChange={handleChange} className="form-control" placeholder="Password" />
+                                    <input type="password" name="Password" onChange={handleChange} className="form-control" placeholder="Password" required/>
                                 </div>
                                 <div className="mb-3">
-                                    <input type="password" className="form-control" placeholder="Retype Password" />
+                                    <input type="password" name="repassword" onChange={handleChange} className="form-control" placeholder="Retype Password" required/>
                                 </div>
                             <div className="row">
                                 <div className="col">
@@ -106,6 +125,7 @@ function Signup() {
                             
                             <button className="btn purple-button" type="submit">Sign up</button>
                             <p className="mt-4">Already have an account? <Link className="link-tag" to="/login/">Sign in</Link></p>
+                            </div>
                         </form>
                     </main>
                 </div>
