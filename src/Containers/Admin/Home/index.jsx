@@ -71,9 +71,7 @@ const AdminHome =  () => {
                     <span className="summary-text5">Total Income: ₹{totalIncome}</span>
                     </div>
 
-                    <Link to={redirectstr} target="_blank">Print</Link>
-
-
+                    <Link to={redirectstr} target="_blank" style={{color:'#ab51e3'}}>Print Report</Link>
 
                     <div className="table-responsive">
                        

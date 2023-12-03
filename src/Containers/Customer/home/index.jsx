@@ -96,8 +96,6 @@ function CustomerHome() {
     longitude: null,
   });
 
-
-  // Function to get destination coordinates based on address
   async function getDestinationCoordinates() {
     try {
       const response = await axios.get(
