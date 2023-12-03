@@ -67,17 +67,12 @@ import {
         page: {
           backgroundColor: "white",
           color: "black",
-          fontSize:10
+          fontSize:11
         },
         section: {
           margin: 10,
           padding: 10,
         },
-        sections: {
-            margin: 10,
-            padding: 10,
-            fontSize:20
-          },
         table: {
           display: "table",
           width: "auto"
@@ -91,13 +86,13 @@ import {
           border: "1px solid black",
           padding: 5,
           fontWeight: "bold",
-          width: 100, // Set a fixed width for header cells
+          width: 100
         },
         tableCell: {
           margin: "auto",
           border: "1px solid black",
           padding: 5,
-          width: 100, // Set a fixed width for data cells
+          width: 100
         },
         viewer: {
           width: window.innerWidth,
@@ -109,10 +104,17 @@ import {
         <PDFViewer style={styles.viewer}>
           <Document>
             <Page size="A4" style={styles.page}>
-            <View style={styles.sections}>
-                <Text>Drivemate</Text>
-            </View>
-              <View style={styles.section}>
+            <View style={{padding:10, alignItems: 'center'}}>
+   <Text style={{ fontSize: 24, fontWeight: 'bold',marginBottom:3}}>Drivemate Daily Report</Text>
+  
+</View>
+<View>
+<Text style={{ fontSize: 16 ,padding:10,}}>Summary of activities for {selectedDate}</Text>
+</View>
+           
+              <View style={{
+          padding: 6,marginLeft:5,marginBottom:10
+        }}>
                 <Text>Total Income today: Rs. {totalIncome}</Text>
                 <Text>Date:{selectedDate}</Text>
               </View>
@@ -143,6 +145,11 @@ import {
                   </View>
                 ))}
               </View>
+              <View style={{flex: 1, justifyContent: 'flex-end',alignItems:'flex-end'}}>
+                  <Text style={{ fontSize: 12, fontStyle: 'italic',padding:5 }}>
+                     This report is electronically generated on {new Date().toLocaleString()}
+                  </Text>
+               </View>
             </Page>
           </Document>
         </PDFViewer>

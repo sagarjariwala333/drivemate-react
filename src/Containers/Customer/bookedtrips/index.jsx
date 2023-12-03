@@ -33,6 +33,9 @@ const BookedTrips = () => {
         (viewBookedTrip?.loading) ? <LoadingPage /> :
             <>
                 <div className="p-5">
+        {viewBookedTrip?.data?.length === 0 ? (
+          <p>No booked trips at the moment.</p>
+        ) : (
                     <table id="Admin" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                         <thead>
                             <tr>
@@ -64,7 +67,7 @@ const BookedTrips = () => {
 
                         </tbody>
 
-                    </table>
+                    </table>)}
                 </div>
             </>
     )
