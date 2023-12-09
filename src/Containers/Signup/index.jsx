@@ -41,7 +41,7 @@ function Signup() {
                 "- At least one uppercase letter\n" +
                 "- At least one digit");
         }
-        else if(state.password !== state.repassword){
+        else if(state.Password !== state.repassword){
             toast.warning("password's are not same")
         }
         else{
